@@ -113,7 +113,7 @@ namespace FromGoldenCombs.Blocks
                     beCeramicBroodPot.SetAttributesOnPickup(stack);
                 }
                 world.SpawnItemEntity(stack, new Vec3d((double)pos.X + 0.5, (double)pos.Y + 0.5, (double)pos.Z + 0.5));
-                world.PlaySoundAt(Sounds.GetBreakSound(byPlayer), pos.X, pos.Y, pos.Z, 1);
+                world.PlaySoundAt(Sounds.GetBreakSound(byPlayer), pos.X, pos.Y, pos.Z);
             }
 
             if (EntityClass != null)

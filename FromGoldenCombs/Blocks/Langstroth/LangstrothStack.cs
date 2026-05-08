@@ -39,7 +39,7 @@ namespace FromGoldenCombs.Blocks.Langstroth
                 {
                     world.SpawnItemEntity(array[i], new Vec3d((double)pos.X + 0.5, (double)pos.Y + 0.5, (double)pos.Z + 0.5), null);
                 }
-                world.PlaySoundAt(this.Sounds.GetBreakSound(byPlayer).Location, (double)pos.X, (double)pos.Y, (double)pos.Z, byPlayer, true, 32f, 1f);
+                world.PlaySoundAt(this.Sounds.GetBreakSound(byPlayer), (double)pos.X, (double)pos.Y, (double)pos.Z, byPlayer, true, 32f, 1f);
             }
             if (this.EntityClass != null)
             {

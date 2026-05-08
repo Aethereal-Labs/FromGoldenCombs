@@ -64,7 +64,7 @@ namespace FromGoldenCombs.BlockBehaviors
                         }
                     }
                     BlockSounds sounds = block.Sounds;
-                    world.PlaySoundAt(block.Sounds.GetBreakSound(byPlayer).Location, (double)pos.X, (double)pos.Y, (double)pos.Z, byPlayer, true, 32f, 1f); 
+                    world.PlaySoundAt(block.Sounds.GetBreakSound(byPlayer), (double)pos.X, (double)pos.Y, (double)pos.Z, byPlayer, true, 32f, 1f); 
                 }
                 block.SpawnBlockBrokenParticles(pos);
                 world.BlockAccessor.SetBlock(0, pos);
