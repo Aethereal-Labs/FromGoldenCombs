@@ -137,15 +137,20 @@ namespace FromGoldenCombs.BlockEntities
 
         private void UpdateClimateValues(ICoreAPI api)
         {
-            worldTime = api.World.Calendar.TotalHours;
-            broodPot.harvestBase = (float)((FGCServerConfig.Current.LangstrothDaysToHarvestIn30DayMonths * ((float)Api.World.Calendar.DaysPerMonth / 30f)) * Api.World.Calendar.HoursPerDay);
-            broodPot.todayNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays)) + 0.66f).Temperature;
-            broodPot.yesterdayNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 1)) + 0.66f).Temperature;
-            broodPot.twoDayAgoNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 2)) + 0.66f).Temperature;
-            broodPot.threeDayTemp = (todayNoonTemp * 2 + yesterdayNoonTemp + twoDayAgoNoonTemp) / 4 + (roomness > 0 ? 5 : 0);
-            conds = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.NowValues);
-            daysTillHarvest = (int)Math.Round((broodPot.harvestableAtTotalHours - worldTime) / 24);
-            optimalTemp = (maxTemp + minTemp) / 2;
+            if (isActiveHive)
+            {
+                worldTime = api.World.Calendar.TotalHours;
+                harvestBase = (float)((FGCServerConfig.Current.LangstrothDaysToHarvestIn30DayMonths * ((float)Api.World.Calendar.DaysPerMonth / 30f)) * Api.World.Calendar.HoursPerDay);
+                todayNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays)) + 0.66f).Temperature;
+                yesterdayNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 1)) + 0.66f).Temperature;
+                twoDayAgoNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 2)) + 0.66f).Temperature;
+                threeDayTemp = (todayNoonTemp * 2 + yesterdayNoonTemp + twoDayAgoNoonTemp) / 4 + (roomness > 0 ? 5 : 0);
+                conds = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.NowValues);
+                daysTillHarvest = (int)Math.Round((harvestableAtTotalHours - worldTime) / 24);
+                optimalTemp = (maxTemp + minTemp) / 2;
+
+            }
+
         }
 
         public override void OnBlockPlaced(ItemStack byItemStack = null)
@@ -785,11 +790,17 @@ namespace FromGoldenCombs.BlockEntities
 
                     if (temp < minTemp)
                     {
+                        isOutTemp = true;
                         dsc.AppendLine(Lang.Get("fromgoldencombs:toocold"));
                     }
-                    if (temp > maxTemp)
+                    else if (temp > maxTemp)
                     {
+                        isOutTemp = true;
                         dsc.AppendLine(Lang.Get("fromgoldencombs:toohot"));
+                    }
+                    else
+                    {
+                        isOutTemp = false;
                     }
                     if ((harvestableAtTotalHours - worldTime / 24 > 0) && this.Block.Variant["top"] == "withtop" && !isOutTemp)
                     {
