@@ -471,7 +471,7 @@ namespace FromGoldenCombs.BlockEntities
                 {
                     BlockPos curPos = new BlockPos(posx, posy, posz);
                     BlockEntity curBE = Api.World.BlockAccessor.GetBlockEntity(curPos);
-                    if (block.Id == 0 || (roomness > 0 && !room.Contains(new BlockPos(posx, posy, posz)))) return;
+                    if (block.Id == 0 || (roomness != 0 && !room.Contains(new BlockPos(posx, posy, posz)))) return;
 
                     if (block.Attributes != null && block.Attributes.IsTrue("beeFeed"))
                     {
