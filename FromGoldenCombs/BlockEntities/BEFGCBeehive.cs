@@ -248,6 +248,11 @@ namespace FromGoldenCombs.BlockEntities
             return roomness > 0 ? 5f : 0f;
         }
 
+        private int GetRoomness(Room room)
+        {
+            return (room != null && room.SkylightCount > room.NonSkylightCount && room.ExitCount == 0) ? 1 : 0;
+        }
+
         private double GetHarvestTime()
         {
             Random rand = new();
@@ -364,7 +369,7 @@ namespace FromGoldenCombs.BlockEntities
         private void OnScanForEmptySkep(float dt)
         {
             Room room = roomreg?.GetRoomForPosition(Pos);
-            roomness = (room != null && room.SkylightCount > room.NonSkylightCount && room.ExitCount == 0) ? 1 : 0;
+            roomness = GetRoomness(room);
             MarkDirty();
             if (actvitiyLevel <= 0) return;
             if (Api.Side == EnumAppSide.Client) return;

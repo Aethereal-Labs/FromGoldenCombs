@@ -394,6 +394,11 @@ namespace FromGoldenCombs.BlockEntities
             return roomness > 0 ? 5f : 0f;
         }
 
+        private int GetRoomness(Room room)
+        {
+            return (room != null && room.SkylightCount > room.NonSkylightCount && room.ExitCount == 0) ? 1 : 0;
+        }
+
         private double HarvestableTime(float harvestbase)
         {
             Random rand = new();
@@ -450,9 +455,8 @@ namespace FromGoldenCombs.BlockEntities
 
             if (isActiveHive)
             {
-
                 Room room = roomreg?.GetRoomForPosition(Pos);
-                roomness = (room != null && room.SkylightCount > room.NonSkylightCount && room.ExitCount == 0) ? 1 : 0;
+                roomness = GetRoomness(room);
                 
                 if (_activityLevel <= 0) return;
                 if (Api.Side == EnumAppSide.Client) return;

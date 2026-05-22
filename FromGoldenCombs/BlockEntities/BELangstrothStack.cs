@@ -724,6 +724,11 @@ namespace FromGoldenCombs.BlockEntities
             return roomness > 0 ? 5f : 0f;
         }
 
+        private int CalculateRoomness(Room room)
+        {
+            return (room != null && room.SkylightCount > room.NonSkylightCount && room.ExitCount == 0) ? 1 : 0;
+        }
+
         //ReturnStackSize
         public int StackSize()
         {
@@ -954,7 +959,7 @@ namespace FromGoldenCombs.BlockEntities
             {
 
                 Room room = roomreg?.GetRoomForPosition(Pos);
-                roomness = (room != null && room.SkylightCount > room.NonSkylightCount && room.ExitCount == 0) ? 1 : 0;
+                roomness = CalculateRoomness(room);
 
                 if (_activityLevel <= 0) return;
                 if (Api.Side == EnumAppSide.Client) return;
@@ -973,7 +978,7 @@ namespace FromGoldenCombs.BlockEntities
                 {
                     BlockPos curPos = new BlockPos(posx, posy, posz);
                     BlockEntity curBE = Api.World.BlockAccessor.GetBlockEntity(curPos);
-                    if (block.Id == 0 || (roomness > 0 && !room.Contains(new BlockPos(posx, posy, posz)))) return;
+                    if (block.Id == 0 || (roomness != 0 && !room.Contains(new BlockPos(posx, posy, posz)))) return;
 
                     if (block.Attributes != null && block.Attributes.IsTrue("beeFeed"))
                     {
