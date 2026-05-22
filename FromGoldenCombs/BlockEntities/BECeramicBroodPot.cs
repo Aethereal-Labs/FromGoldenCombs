@@ -22,7 +22,7 @@ namespace FromGoldenCombs.BlockEntities
         int quantityNearbyHives;
         float _activityLevel;
         RoomRegistry roomreg;
-        float roomness;
+        int roomness;
         public static SimpleParticleProperties Bees;
         int scanQuantityNearbyFlowers;
         int scanQuantityNearbyHives;

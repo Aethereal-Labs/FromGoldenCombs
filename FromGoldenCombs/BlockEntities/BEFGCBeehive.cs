@@ -56,7 +56,7 @@ namespace FromGoldenCombs.BlockEntities
         private Vec3f minVelo = new Vec3f();
         private Vec3f maxVelo = new Vec3f();
         public float actvitiyLevel;
-        public float roomness;
+        public int roomness;
         private string material;
         public Vec3d Position => Pos.ToVec3d().Add(0.5, 0.5, 0.5);
         public string Type => "food";
