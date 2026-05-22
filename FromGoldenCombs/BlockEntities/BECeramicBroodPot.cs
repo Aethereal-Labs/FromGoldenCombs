@@ -668,7 +668,7 @@ namespace FromGoldenCombs.BlockEntities
             tree.SetDouble("cooldownUntilTotalHours", cooldownUntilTotalHours);
             tree.SetDouble("harvestableAtTotalHours", harvestableAtTotalHours);
             tree.SetInt("hiveHealth", (int)_hivePopSize);
-            tree.SetFloat("roomness", roomness);
+            tree.SetInt("roomness", roomness);
 
             tree.SetDouble("cropChargeAtTotalHours", cropChargeAtTotalHours);
             tree.SetInt("maxCropCharges", maxCropCharges);
@@ -693,7 +693,7 @@ namespace FromGoldenCombs.BlockEntities
             cooldownUntilTotalHours = tree.GetDouble("cooldownUntilTotalHours");
             harvestableAtTotalHours = tree.GetDouble("harvestableAtTotalHours");
             _hivePopSize = (EnumHivePopSize)tree.GetInt("hiveHealth");
-            roomness = tree.GetFloat("roomness");
+            roomness = tree.GetInt("roomness");
             
             cropChargeAtTotalHours = tree.GetDouble("cropChargeAtTotalHours");
             maxCropCharges = tree.GetInt("maxCropCharges");
@@ -761,7 +761,7 @@ namespace FromGoldenCombs.BlockEntities
                 {
                     dsc.AppendLine(Lang.Get("fromgoldencombs:findflowers"));
                 }
-                if (this.roomness > 0f)
+                if (this.roomness > 0)
                 {
                     dsc.AppendLine(Lang.Get("greenhousetempbonus", Array.Empty<object>()));
                 }

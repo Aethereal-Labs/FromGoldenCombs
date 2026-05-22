@@ -624,7 +624,7 @@ namespace FromGoldenCombs.BlockEntities
                 }
             }
             dsc.AppendLine(hiveState);
-            if (this.roomness > 0f)
+            if (this.roomness > 0)
             {
                 dsc.AppendLine("\n" + Lang.Get("greenhousetempbonus", Array.Empty<object>()));
                 
@@ -675,7 +675,7 @@ namespace FromGoldenCombs.BlockEntities
             tree.SetDouble("cooldownUntilTotalHours", cooldownUntilTotalHours);
             tree.SetDouble("harvestableAtTotalHours", harvestableAtTotalHours);
             tree.SetInt("hiveHealth", (int)hivePopSize);
-            tree.SetFloat("roomness", roomness);
+            tree.SetInt("roomness", roomness);
             tree.SetDouble("cropChargeAtTotalHours", cropChargeAtTotalHours);
             tree.SetInt("cropcharges", cropcharges);
         }
@@ -724,7 +724,7 @@ namespace FromGoldenCombs.BlockEntities
             cooldownUntilTotalHours = tree.GetDouble("cooldownUntilTotalHours");
             harvestableAtTotalHours = tree.GetDouble("harvestableAtTotalHours");
             hivePopSize = (EnumHivePopSize)tree.GetInt("hiveHealth");
-            roomness = tree.GetFloat("roomness");
+            roomness = tree.GetInt("roomness");
             cropChargeAtTotalHours = tree.GetDouble("cropChargeAtTotalHours");
             cropcharges = tree.GetInt("cropcharges");
             if (Harvestable != harvestable && Api != null)
