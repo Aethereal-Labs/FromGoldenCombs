@@ -64,7 +64,6 @@ namespace FromGoldenCombs.BlockEntities
             ItemSlot activeHotbarSlot = byPlayer.InventoryManager.ActiveHotbarSlot;
             ItemStack itemstack = activeHotbarSlot.Itemstack;
             bool flag = (itemstack != null ? itemstack.Collectible.FirstCodePart() == "beeframe" : false);
-                //((itemstack != null) ? itemstack.Collectible : null) is LangstrothFrame;
             BlockContainer blockContainer = this.Api.World.BlockAccessor.GetBlock(blockSel.Position, 0) as BlockContainer;
             blockContainer.SetContents(new ItemStack(blockContainer, 1), base.GetContentStacks(true));
             if (!byPlayer.Entity.Controls.Sneak && !activeHotbarSlot.Empty && activeHotbarSlot.Itemstack.Collectible.FirstCodePart(0) == "langstrothbroodtop" && activeHotbarSlot.Itemstack.Collectible.Variant["primary"] == base.Block.Variant["primary"] && activeHotbarSlot.Itemstack.Collectible.Variant["accent"] == base.Block.Variant["accent"])
@@ -84,10 +83,9 @@ namespace FromGoldenCombs.BlockEntities
                     base.MarkDirty(true, null);
                     return true;
                 }
-                ICoreClientAPI coreClientAPI = byPlayer.Entity.World.Api as ICoreClientAPI;
-                if (coreClientAPI != null)
+                if (byPlayer.Entity.World.Api is ICoreClientAPI capi)
                 {
-                    coreClientAPI.TriggerIngameError(this, "nonemptysuper", Lang.Get("fromgoldencombs:nonemptysuper", Array.Empty<object>()));
+                    capi.TriggerIngameError(this, "nonemptysuper", Lang.Get("fromgoldencombs:nonemptysuper", Array.Empty<object>()));
                 }
             }
             else if ((activeHotbarSlot.Empty || !flag) && blockSel.SelectionBoxIndex < 10 && base.Block.Variant["open"] == "open")
@@ -101,13 +99,19 @@ namespace FromGoldenCombs.BlockEntities
             }
             else if (flag && blockSel.SelectionBoxIndex < 10 && base.Block.Variant["open"] == "open")
             {
-                base.MarkDirty(true, null);
+                if ((itemstack.Collectible.Variant["harvestable"] == "empty" &&  byPlayer.Entity.World.Api is ICoreClientAPI capi))
+                {
+                    capi.TriggerIngameError(this, "nonemptysuper", Lang.Get("fromgoldencombs:noemptyframes", Array.Empty<object>()));
+                    return false;
+                }
+
                 if (this.TryPut(activeHotbarSlot, blockSel))
                 {
                     updateMeshes();
                     base.MarkDirty(true);
                     return true;
                 }
+                base.MarkDirty(true, null);
             }
             else
             {

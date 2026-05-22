@@ -67,6 +67,12 @@ namespace FromGoldenCombs.Util.Config
             FGCServerConfig.Current.backpackSlotOnly = fgcConfig.backpackSlotOnly;
             FGCServerConfig.Current.cropBoostPercentage = fgcConfig.cropBoostPercentage;
             FGCServerConfig.Current.minFlowersPerHive = fgcConfig.minFlowersPerHive;
+            FGCServerConfig.Current.canPlaceCeramicOnFence = fgcConfig.canPlaceCeramicOnFence;
+            FGCServerConfig.Current.canPlaceLangstrothOnFence = fgcConfig.canPlaceLangstrothOnFence;
+            FGCServerConfig.Current.skepCropBoostPercentage = fgcConfig.skepCropBoostPercentage;
+            FGCServerConfig.Current.ceramicCropBoostPercentage = fgcConfig.ceramicCropBoostPercentage;
+            FGCServerConfig.Current.langstrothCropBoostPercentage = fgcConfig.langstrothCropBoostPercentage;
+
         }
 
         #endregion
@@ -174,8 +180,16 @@ namespace FromGoldenCombs.Util.Config
             public float cropBoostPercentage = FGCServerConfig.Current.cropBoostPercentage;
             [ProtoMember(35)]
             public int minFlowersPerHive = FGCServerConfig.Current.minFlowersPerHive;
-
-
+            [ProtoMember(36)]
+            public bool canPlaceLangstrothOnFence = FGCServerConfig.Current.canPlaceLangstrothOnFence;
+            [ProtoMember(37)]
+            public bool canPlaceCeramicOnFence = FGCServerConfig.Current.canPlaceCeramicOnFence;
+            [ProtoMember(38)]
+            public float langstrothCropBoostPercentage = FGCServerConfig.Current.langstrothCropBoostPercentage;
+            [ProtoMember(39)]
+            public float ceramicCropBoostPercentage = FGCServerConfig.Current.ceramicCropBoostPercentage;
+            [ProtoMember(40)]
+            public float skepCropBoostPercentage = FGCServerConfig.Current.skepCropBoostPercentage;
         }
 
         [ProtoContract]

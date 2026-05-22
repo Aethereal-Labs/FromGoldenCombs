@@ -2,7 +2,7 @@
 	{
 		"ingredientPattern": "B,R,S",
 		"ingredients": {
-			"B": { "type": "item", "code": "fromgoldencombs:langstrothside-*", "name": "wood", "states": ["aged"], "loadFromProperties": "block/wood"},
+			"B": { "type": "item", "code": "fromgoldencombs:langstrothside-*", "quantity": 2, "name": "wood", "states": ["aged"], "loadFromProperties": "block/wood"},
 			"R": { "type": "item", "code": "game:stick",  "quantity": "3"},
 			"S": { "type": "item", "code": "game:resin"}
 			},
@@ -17,10 +17,10 @@
 				"R": { "type": "item", "code": "game:stick",  "quantity": "3"},
 				"S": { type: "block", code: "game:bowl-*-fired" }
 			},
-			attributes: {
-				liquidContainerProps: {
-					requiresContent: { type: "item", code: "glueportion-pitch-hot" },
-					requiresLitres: 0.1
+			"attributes": {
+				"liquidContainerProps": {
+					"requiresContent": { type: "item", code: "glueportion-pitch-hot" },
+					"requiresLitres": 0.1
 				}
 			},		
 			"width": 1,
@@ -34,10 +34,10 @@
 				"R": { "type": "item", "code": "game:stick",  "quantity": "3"},
 				"S": { type: "block", code: "game:woodbucket"},
 			},
-			attributes: {
-				liquidContainerProps: {
-					requiresContent: { type: "item", code: "glueportion-pitch-hot" },
-					requiresLitres: 0.1
+			"attributes": {
+				"liquidContainerProps": {
+					"requiresContent": { type: "item", code: "glueportion-pitch-hot" },
+					"requiresLitres": 0.1
 				}
 			},		
 			"width": 1,
@@ -51,10 +51,10 @@
 				"R": { "type": "item", "code": "game:stick",  "quantity": "3"},
 				"S": { type: "block", code: "game:jug-*-fired"},
 			},
-			attributes: {
-				liquidContainerProps: {
-					requiresContent: { type: "item", code: "glueportion-pitch-hot" },
-					requiresLitres: 0.1
+			"attributes": {
+				"liquidContainerProps": {
+					"requiresContent": { type: "item", code: "glueportion-pitch-hot" },
+					"requiresLitres": 0.1
 				}
 			},		
 			"width": 1,

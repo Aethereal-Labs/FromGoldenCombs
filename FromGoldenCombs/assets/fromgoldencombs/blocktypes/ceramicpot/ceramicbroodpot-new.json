@@ -9,147 +9,215 @@
 		"*-withtop": "beceramichive"
 	},
 	"behaviorsByType": {
-		"*-raw": [{ "name": "Unstable" },
-							{name: "GroundStorable", properties: { layout: "SingleCenter", collisionBox: { x1: 0.187, y1: 0.063, z1: 0.189, x2: 0.812, y2: 0.559, z2: 0.8115 }}},
-							{
-								"name": "Unplaceable",
-								"__comment": "The ground storable obsoletes this being a block. Should be an item, but is kept a block for backwards compatibility"
-							},
-							{ "name": "RightClickPickup" }],
-		"*": [{ "name": "Unstable" }]
+		"*-raw": [
+			{ "name": "Unstable" },
+			{
+				"name": "GroundStorable",
+				"properties": {
+					"layout": "SingleCenter",
+					"collisionBox": {
+						"x1": 0.187,
+						"y1": 0.063,
+						"z1": 0.189,
+						"x2": 0.812,
+						"y2": 0.559,
+						"z2": 0.8115
+					}
+				}
+			},
+			{
+				"name": "Unplaceable",
+				"__comment": "The ground storable obsoletes this being a block. Should be an item, but is kept a block for backwards compatibility"
+			},
+			{ "name": "RightClickPickup" }
+		],
+		"*": [ { "name": "Unstable" } ]
 	},
+	"variantgroups": [
+		{
+			"code": "color",
+			"states": [ "blue", "earthyorange", "fire", "black", "brown", "cream", "gray", "orange", "red", "tan" ]
+		},
+		{
+			"code": "top",
+			"states": [ "withtop", "notop", "raw" ]
+		}
+	],
 	"storageFlags": 1,
 	"maxstacksize": 1,
 	"attributes": {
-    "handbook": {
-      "extraSections": [
-        {
-          "title": "fromgoldencombs:block-handbooktitle-ceramicbroodpot",
-          "text": "fromgoldencombs:block-handbooktext-ceramicbroodpot"
-        }
-      ]
-    }
-  },
-	attributesByType:{
-		"ceramicbroodpot-red-raw":{
-			beehivekiln:{
-				"0": { "type": "block", "code": "fromgoldencombs:ceramicbroodpot-tan-notop" },
-				"1": { "type": "block", "code": "fromgoldencombs:ceramicbroodpot-orange-notop" },
-				"2": { "type": "block", "code": "fromgoldencombs:ceramicbroodpot-red-notop" },
-				"3": { "type": "block", "code": "fromgoldencombs:ceramicbroodpot-brown-notop" }
+		"handbook": {
+			"extraSections": [
+				{
+					"title": "fromgoldencombs:block-handbooktitle-ceramicbroodpot",
+					"text": "fromgoldencombs:block-handbooktext-ceramicbroodpot"
+				}
+			]
+		}
+	},
+	"attributesByType": {
+		"ceramicbroodpot-red-raw": {
+			"beehivekiln": {
+				"0": {
+					"type": "block",
+					"code": "fromgoldencombs:ceramicbroodpot-tan-notop"
+				},
+				"1": {
+					"type": "block",
+					"code": "fromgoldencombs:ceramicbroodpot-orange-notop"
+				},
+				"2": {
+					"type": "block",
+					"code": "fromgoldencombs:ceramicbroodpot-red-notop"
+				},
+				"3": {
+					"type": "block",
+					"code": "fromgoldencombs:ceramicbroodpot-brown-notop"
+				}
 			}
 		},
-		"ceramicbroodpot-blue-raw":{
-			beehivekiln:{
-				"0": { "type": "block", "code": "fromgoldencombs:ceramicbroodpot-cream-notop"},
-				"1": { "type": "block", "code": "fromgoldencombs:ceramicbroodpot-gray-notop"},
-				"2": { "type": "block", "code": "fromgoldencombs:ceramicbroodpot-black-notop"},
-				"3": { "type": "block", "code": "fromgoldencombs:ceramicbroodpot-black-notop"}
+		"ceramicbroodpot-blue-raw": {
+			"beehivekiln": {
+				"0": {
+					"type": "block",
+					"code": "fromgoldencombs:ceramicbroodpot-cream-notop"
+				},
+				"1": {
+					"type": "block",
+					"code": "fromgoldencombs:ceramicbroodpot-gray-notop"
+				},
+				"2": {
+					"type": "block",
+					"code": "fromgoldencombs:ceramicbroodpot-black-notop"
+				},
+				"3": {
+					"type": "block",
+					"code": "fromgoldencombs:ceramicbroodpot-black-notop"
+				}
 			}
 		},
-		"ceramicbroodpot-fire-raw":{
-			beehivekiln:{
-				"0": { "type": "block", "code": "fromgoldencombs:ceramicbroodpot-fire-notop"},
-				"1": { "type": "block", "code": "fromgoldencombs:ceramicbroodpot-fire-notop"},
-				"2": { "type": "block", "code": "fromgoldencombs:ceramicbroodpot-fire-notop"},
-				"3": { "type": "block", "code": "fromgoldencombs:ceramicbroodpot-fire-notop"}
+		"ceramicbroodpot-fire-raw": {
+			"beehivekiln": {
+				"0": {
+					"type": "block",
+					"code": "fromgoldencombs:ceramicbroodpot-fire-notop"
+				},
+				"1": {
+					"type": "block",
+					"code": "fromgoldencombs:ceramicbroodpot-fire-notop"
+				},
+				"2": {
+					"type": "block",
+					"code": "fromgoldencombs:ceramicbroodpot-fire-notop"
+				},
+				"3": {
+					"type": "block",
+					"code": "fromgoldencombs:ceramicbroodpot-fire-notop"
+				}
 			}
 		}
 	},
-	"texturesByType": {		
-    "*-raw": { "clay": { "base": "game:block/clay/{color}clay" }},
-    "*":  { "clay": { base: "block/clay/hardened/{color}"}}
-  },
 	"heldTpIdleAnimation": "holdbothhands",
-	"variantgroups": [
-		{ "code": "color", "states": [ "blue", "fire", "black", "brown", "cream", "gray", "orange", "red", "tan"]},
-		{ "code": "top", "states": ["withtop", "notop","raw"]}
-	],
+	"texturesByType": {
+		"*-raw": { "clay": { "base": "game:block/clay/{color}clay" } },
+		"*": { "clay": { "base": "game:block/clay/hardened/{color}" } }
+	},
 	"skipVariants": [
 		"*-tan-raw",
 		"*-orange-raw",
 		"*-gray-raw",
 		"*-cream-raw",
 		"*-brown-raw",
-		"*-black-raw"
+		"*-black-raw",
+		"*-earthyorange-raw"
 	],
-	"creativeinventory": { 
+	"creativeinventory": {
 		"fromgoldencombs": [
-			"*-blue-notop","*-blue-raw",
-			"*-fire-notop","*-fire-raw",
-			"*-black-notop","*-black-raw",
-			"*-brown-notop","*-brown-raw",
-			"*-cream-notop","*-cream-raw",
-			"*-gray-notop","*-gray-raw",
-			"*-orange-notop","*-orange-raw",
-			"*-red-notop","*-red-raw",
-			"*-tan-notop","*-tan-raw"
+			"*-blue-notop",
+			"*-blue-raw",
+			"*-fire-notop",
+			"*-fire-raw",
+			"*-black-notop",
+			"*-black-raw",
+			"*-brown-notop",
+			"*-brown-raw",
+			"*-cream-notop",
+			"*-cream-raw",
+			"*-gray-notop",
+			"*-gray-raw",
+			"*-orange-notop",
+			"*-orange-raw",
+			"*-red-notop",
+			"*-red-raw",
+			"*-tan-notop",
+			"*-tan-raw",
+			"*-earthyorange-notop"
 		]
 	},
-	"shape": {"base": "block/hive/ceramic/ceramicbroodpot-update"},
-	"texturesByType": {		
-		"*-raw": {"clay": { "base": "game:block/clay/{color}clay" }},
-    "*":  { "clay": { base: "game:block/clay/hardened/{color}"}}
-	},
-	sounds: {
-		place: "game:block/planks",
-		break: "game:block/planks",
-		hit: "game:block/planks",
-		ambient: "game:creature/beehive"
+	"shape": { "base": "block/hive/ceramic/ceramicbroodpot-update" },
+	"sounds": {
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks",
+		"ambient": "game:creature/beehive"
 	},
 	"combustiblePropsByType": {
-		"*-raw": {"meltingPoint": 650,
-    "meltingDuration": 45,
-    "smeltedRatio": 1,
-    "smeltingType": "fire",
-    "smeltedStack": {
-      "type": "block",
-      "code": "fromgoldencombs:ceramicbroodpot-{color}-notop"
-    },
-    "requiresContainer": false
+		"*-raw": {
+			"meltingPoint": 650,
+			"meltingDuration": 45,
+			"smeltedRatio": 1,
+			"smeltingType": "fire",
+			"smeltedStack": {
+				"type": "block",
+				"code": "fromgoldencombs:ceramicbroodpot-{color}-notop"
+			},
+			"requiresContainer": false
 		}
 	},
-	"collisionboxes": [{
-				"x1": 0.25,
-				"y1": 0,
-				"z1": 0.25,
-				"x2": 0.75,
-				"y2": 0.0625,
-				"z2": 0.75
-			},
-			{
-				"x1": 0.3125,
-				"y1": 0.625,
-				"z1": 0.3125,
-				"x2": 0.6875,
-				"y2": 0.6875,
-				"z2": 0.6875
-			},
-			{
-				"x1": 0.3125,
-				"y1": 0.625,
-				"z1": 0.3125,
-				"x2": 0.6875,
-				"y2": 0.6875,
-				"z2": 0.6875
-			},
-			{
-				"x1": 0.25,
-				"y1": 0.5625,
-				"z1": 0.25,
-				"x2": 0.75,
-				"y2": 0.625,
-				"z2": 0.75
-			}
-		],
-	"selectionboxes": [{
+	"collisionboxes": [
+		{
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.0625,
+			"z2": 0.75
+		},
+		{
+			"x1": 0.3125,
+			"y1": 0.625,
+			"z1": 0.3125,
+			"x2": 0.6875,
+			"y2": 0.6875,
+			"z2": 0.6875
+		},
+		{
+			"x1": 0.3125,
+			"y1": 0.625,
+			"z1": 0.3125,
+			"x2": 0.6875,
+			"y2": 0.6875,
+			"z2": 0.6875
+		},
+		{
+			"x1": 0.25,
+			"y1": 0.5625,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.625,
+			"z2": 0.75
+		}
+	],
+	"selectionboxes": [
+		{
 			"x1": 0.187,
 			"y1": 0.063,
 			"z1": 0.189,
 			"x2": 0.812,
 			"y2": 0.559,
 			"z2": 0.8115
-		}],
+		}
+	],
 	"lightAbsorption": 0,
 	"sideopaque": {
 		"all": false
@@ -179,9 +247,17 @@
 		},
 		"scale": 0.59
 	},
-		guiTransform: {
-		rotation: { x: -11, y: -23, z: 0 },
-		origin: { x: 0.5, y: 0.4, z: 0.5 },
-		scale: 1.4
+	"guiTransform": {
+		"rotation": {
+			"x": -11,
+			"y": -23,
+			"z": 0
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0.4,
+			"z": 0.5
+		},
+		"scale": 1.4
 	}
 }

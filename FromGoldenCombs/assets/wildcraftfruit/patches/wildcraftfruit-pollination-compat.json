@@ -1,7 +1,7 @@
 [
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/berrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-blackcurrant-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -17,7 +17,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/berrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-redcurrant-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -33,7 +33,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/berrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-whitecurrant-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -49,7 +49,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/berrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-dwarfpine-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -65,7 +65,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/berrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-hazel-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -81,8 +81,8 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/berrybush",
-    "op": "add",
-    "path": "/behaviorsByType/*-bladdernut-ripe/0",
+    "op": "addmerge",
+    "path": "/behaviorsByType/*-bladdmergeernut-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
       "properties": {
@@ -97,7 +97,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/berrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-sumac-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -113,7 +113,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/berrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-pistachio-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -129,7 +129,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/berrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-marita-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -145,7 +145,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/berrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-huckleberry-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -161,7 +161,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/berrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-swamphuckle-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -177,7 +177,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/berrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-spindle-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -193,7 +193,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/berrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-ballart-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -209,7 +209,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/berrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-pilo-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -225,7 +225,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/berrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-mingimingi-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -241,7 +241,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/berrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-juniper-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -257,7 +257,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/berrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-beautyberry-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -273,7 +273,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/berrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-kumquat-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -289,7 +289,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/berrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-calamansi-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -305,7 +305,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/berrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-blackelder-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -321,7 +321,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/berrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-oroblanco-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -337,7 +337,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/berrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -353,7 +353,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/bottomberrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-pilo-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -369,7 +369,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/bottomberrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-juniper-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -385,7 +385,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/bottomberrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-hazel-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -401,7 +401,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/bottomberrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-blackelder-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -417,7 +417,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/bottomberrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -433,7 +433,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/bottompricklybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-blossomquince-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -449,7 +449,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/bottompricklybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -465,7 +465,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/groundberryplant",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-cranberry-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -481,7 +481,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/groundberryplant",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-strawberry-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -497,7 +497,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/groundberryplant",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-lingonberry-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -513,7 +513,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/groundberryplant",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-coralbead-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -529,7 +529,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/groundberryplant",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-crowberry-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -545,7 +545,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/groundberryplant",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-crowseye-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -561,7 +561,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/groundberryplant",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-cloudberry-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -577,7 +577,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/groundberryplant",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-knyazberry-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -593,7 +593,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/groundberryplant",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -609,7 +609,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/pricklyberrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-deserthackberry-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -625,7 +625,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/pricklyberrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-dogrose-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -641,7 +641,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/pricklyberrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-beachrose-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -657,7 +657,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/pricklyberrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-sallowthorn-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -673,7 +673,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/pricklyberrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-blossomquince-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -689,7 +689,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/pricklyberrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-raspberry-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -705,7 +705,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/pricklyberrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-brambleberry-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -721,7 +721,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/pricklyberrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -737,7 +737,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/pricklyshortbush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-caper-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -753,7 +753,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/pricklyshortbush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-pricklyheath-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -769,7 +769,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/pricklyshortbush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -785,7 +785,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/shortberrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-blueberry-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -801,7 +801,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/shortberrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-bilberry-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -817,7 +817,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/shortberrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-ugni-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -833,7 +833,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/shortberrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-munthari-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -849,7 +849,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/shortberrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -865,7 +865,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/shrubberrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-blacknightshade-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -881,7 +881,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/shrubberrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-oldmansaltbush-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -897,7 +897,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/shrubberrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-bitternightshade-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -913,7 +913,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/shrubberrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-husktomato-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -929,7 +929,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/shrubberrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-newhusktomato-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -945,7 +945,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/shrubberrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-falsetomato-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -961,7 +961,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/shrubberrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-orangebellpepper-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -977,7 +977,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/shrubberrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-redbellpepper-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -993,7 +993,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/shrubberrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-yellowbellpepper-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -1009,7 +1009,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/shrubberrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-greenbellpepper-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -1025,7 +1025,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/shrubberrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-jalapeno-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -1041,7 +1041,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/shrubberrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-habanero-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -1057,7 +1057,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/shrubberrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-cayenne-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -1073,7 +1073,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/shrubberrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-tabasco-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -1089,7 +1089,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/shrubberrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-tomato-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -1105,7 +1105,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/shrubberrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-romatomato-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -1121,7 +1121,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/shrubberrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-oxheart-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -1137,7 +1137,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/shrubberrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-wildtomato-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -1153,7 +1153,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/shrubberrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-tomatillo-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -1169,7 +1169,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/shrubberrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-eggplant-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -1185,7 +1185,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/shrubberrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -1201,7 +1201,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/topberrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-huckleberry-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -1217,7 +1217,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/topberrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-swamphuckle-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -1233,7 +1233,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/topberrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-mingimingi-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -1249,7 +1249,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/topberrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-kumquat-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -1265,7 +1265,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/topberrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-ballart-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -1281,7 +1281,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/topberrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-sumac-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -1297,7 +1297,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/topberrybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -1313,7 +1313,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/toppricklybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-dogrose-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -1329,7 +1329,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/toppricklybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-beachrose-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -1345,7 +1345,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/toppricklybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-raspberry-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -1361,7 +1361,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/toppricklybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-brambleberry-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -1377,7 +1377,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/berry/toppricklybush",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -1393,7 +1393,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/x-cactus/cactus",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-topsaguaro-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -1409,7 +1409,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/x-cactus/cactus",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-branchysaguaro-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -1425,7 +1425,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/x-cactus/cactus",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-youngsaguaro-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -1441,7 +1441,7 @@
   },
   {
     "file": "wildcraftfruit:blocktypes/plant/x-cactus/cactus",
-    "op": "add",
+    "op": "addmerge",
     "path": "/behaviorsByType/*-barrelcactus-ripe/0",
     "value": {
       "name": "PushEventOnBlockHarvested",
@@ -1457,7 +1457,7 @@
   },
 {
   "file": "wildcraftfruit:blocktypes/plant/fruitvine/fruitvine",
-  "op": "add",
+  "op": "addmerge",
   "path": "/behaviorsByType/*-purpleappleberry-ripe-*/0",
   "value": {
     "name": "PushEventOnBlockHarvested",
@@ -1469,7 +1469,7 @@
 },
 {
   "file": "wildcraftfruit:blocktypes/plant/fruitvine/fruitvine",
-  "op": "add",
+  "op": "addmerge",
   "path": "/behaviorsByType/*-bryony-ripe-*/0",
   "value": {
     "name": "PushEventOnBlockHarvested",
@@ -1481,7 +1481,7 @@
 },
 {
   "file": "wildcraftfruit:blocktypes/plant/fruitvine/fruitvine",
-  "op": "add",
+  "op": "addmerge",
   "path": "/behaviorsByType/*-ivy-ripe-*/0",
   "value": {
     "name": "PushEventOnBlockHarvested",
@@ -1493,7 +1493,7 @@
 },
 {
   "file": "wildcraftfruit:blocktypes/plant/fruitvine/fruitvine",
-  "op": "add",
+  "op": "addmerge",
   "path": "/behaviorsByType/*-cucumber-ripe-*/0",
   "value": {
     "name": "PushEventOnBlockHarvested",
@@ -1505,7 +1505,7 @@
 },
 {
   "file": "wildcraftfruit:blocktypes/plant/fruitvine/fruitvine",
-  "op": "add",
+  "op": "addmerge",
   "path": "/behaviorsByType/*-ripe-*/0",
   "value": {
     "name": "PushEventOnBlockHarvested",

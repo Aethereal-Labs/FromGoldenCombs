@@ -1,5 +1,6 @@
 ﻿using FromGoldenCombs.BlockBehaviors;
 using FromGoldenCombs.Blocks;
+using FromGoldenCombs.Blocks.ClaypotHive;
 using FromGoldenCombs.Blocks.Langstroth;
 using FromGoldenCombs.Util.Config;
 using System;
@@ -22,7 +23,7 @@ namespace FromGoldenCombs.BlockEntities
         int scanIteration;
         int quantityNearbyFlowers;
         int quantityNearbyHives;
-        List<BlockPos> emptySkeps = new();
+        List<BlockPos> emptySkeps = [];
         bool isWildHive;
         BlockPos skepToPop;
         double beginPopStartTotalHours;
@@ -31,16 +32,14 @@ namespace FromGoldenCombs.BlockEntities
         double harvestableAtTotalHours;
         float harvestBase;
         new bool Harvestable;
-        float threeDayTemp;
 
         // Current scan values
         int scanQuantityNearbyFlowers;
         int scanQuantityNearbyHives;
-        List<BlockPos> scanEmptySkeps = new();
+        List<BlockPos> scanEmptySkeps = [];
         double cropChargeGrowthHours = 24;
         double chargesPerDay = FGCServerConfig.Current.skepBaseChargesPerDay; //Number of hours until the hive accumulates a new grow charge.
         double cropChargeAtTotalHours;
-        double cooldownUntilCropCharge;
         int cropcharges;
         int maxCropCharges = FGCServerConfig.Current.skepMaxCropCharges;
         int cropChargeRange = FGCServerConfig.Current.skepCropRange;
@@ -51,15 +50,14 @@ namespace FromGoldenCombs.BlockEntities
         bool wasPlaced = false;
         string orientation;
         private RoomRegistry roomreg;
-        private Vec3d startPos = new Vec3d();
-        private Vec3d endPos = new Vec3d();
-        private Vec3f minVelo = new Vec3f();
-        private Vec3f maxVelo = new Vec3f();
+        private Vec3d startPos = new();
+        private Vec3d endPos = new();
+        private Vec3f minVelo = new();
+        private Vec3f maxVelo = new();
         public float actvitiyLevel;
         public int roomness;
         private string material;
-        public Vec3d Position => Pos.ToVec3d().Add(0.5, 0.5, 0.5);
-        public string Type => "food";
+        public new Vec3d Position => Pos.ToVec3d().Add(0.5, 0.5, 0.5);
 
         static BEFGCBeehive()
             {
@@ -99,8 +97,8 @@ namespace FromGoldenCombs.BlockEntities
             {
                 ICoreClientAPI coreClientAPI = api as ICoreClientAPI;
                 Block fullSkep = api.World.GetBlock(base.Block.CodeWithVariant("type", "populated"));
-                MeshData mesh;
-                coreClientAPI.Tesselator.TesselateShape(fullSkep, Shape.TryGet(api, "shapes/block/beehive/skep-harvestable.json"), out mesh, new Vec3f(0f, (float)(BlockFacing.FromCode(this.orientation).HorizontalAngleIndex * 90 - 90), 0f), null, null);
+                //Below MeshData mesh creates the variable in-line rather than as MeshData mesh on it's own line.
+                coreClientAPI.Tesselator.TesselateShape(fullSkep, Shape.TryGet(api, "shapes/block/beehive/skep-harvestable.json"), out MeshData mesh, new Vec3f(0f, (float)(BlockFacing.FromCode(this.orientation).HorizontalAngleIndex * 90 - 90), 0f), null, null);
                 api.ObjectCache["beehive-" + this.material + "-harvestablemesh-" + this.orientation] = mesh;
             }
             if (!this.isWildHive && api.Side == EnumAppSide.Server)
@@ -114,7 +112,7 @@ namespace FromGoldenCombs.BlockEntities
 
         public void OnPollinationNearby(string eventName, BlockPos cropPos, ref EnumHandling handling, IAttribute data)
         {
-            TreeAttribute tdata = data as TreeAttribute;
+            
             int deltaX = cropPos.X - Pos.X;
             int deltaY = cropPos.Y - Pos.Y;
             int deltaZ = cropPos.Z - Pos.Z;
@@ -136,6 +134,7 @@ namespace FromGoldenCombs.BlockEntities
                     manageFruitBoost(cropPos, distance, ref handling);
                 }
             }
+               
         }
 
         private void manageCropBoost(BlockPos cropPos, double distance, ref EnumHandling handling)
@@ -143,18 +142,12 @@ namespace FromGoldenCombs.BlockEntities
             if (!Api.Side.IsServer()) return;
             if (cropcharges < 1 || Api?.World == null || distance >= cropChargeRange) return;
 
-
-
-
             Block cropBlock = Api.World.BlockAccessor.GetBlock(cropPos);
             if (cropBlock == null) return;
             if (!cropBlock.HasBehavior<PushEventOnCropBreakBehavior>()) return;
 
-
-
             PushEventOnCropBreakBehavior behavior = cropBlock.GetBehavior<PushEventOnCropBreakBehavior>();
             if (behavior?.validCropStages == null) return;
-
 
             if (cropBlock is not BlockCrop crop) return;
             if (Api.World.BlockAccessor.GetBlockEntity(cropPos.DownCopy()) is not BlockEntityFarmland) return;
@@ -164,6 +157,7 @@ namespace FromGoldenCombs.BlockEntities
 
             if (!behavior.validCropStages.Contains<int>(crop.CurrentCropStage)) return;
 
+            behavior.beeChanceMultiplier = FGCServerConfig.Current.skepCropBoostPercentage;
             behavior.setHandling(EnumHandling.PreventSubsequent);
             cropcharges--;
             MarkDirty();
@@ -187,6 +181,7 @@ namespace FromGoldenCombs.BlockEntities
             // Claim the pollination event so other nearby hives don't all do the same work.
             handling = EnumHandling.PreventSubsequent;
 
+            eventBehavior.beeChanceMultiplier += FGCServerConfig.Current.skepCropBoostPercentage;
             eventBehavior.useBeeBoost = true;
             cropcharges--;
             MarkDirty();
@@ -223,7 +218,7 @@ namespace FromGoldenCombs.BlockEntities
             {
                 if (drop == null) continue;
 
-                ItemStack stack = drop.GetNextItemStack(0.25f);
+                ItemStack stack = drop.GetNextItemStack(FGCServerConfig.Current.skepCropBoostPercentage);
                 if (stack != null)
                 {
                     Api.World.SpawnItemEntity(stack, beFTP.Pos.Add(0.0f, 0.5f, 0.0f), null);
@@ -336,7 +331,7 @@ namespace FromGoldenCombs.BlockEntities
                 tempOutOfRange = true;
             }
 
-            if(hivePopSize > 0 && !tempOutOfRange) handleCropCharges(tempOutOfRange, worldTime);
+            if(hivePopSize > 0 && !tempOutOfRange) HandleCropCharges(worldTime);
 
             // Reset timers during winter
             if (threeDayTemp <= minTemp || threeDayTemp >= maxTemp)
@@ -352,7 +347,7 @@ namespace FromGoldenCombs.BlockEntities
             MarkDirty(redrawOnClient: true);
         }
 
-        private void handleCropCharges(bool tempOutOfRange, double worldTime)
+        private void HandleCropCharges(double worldTime)
         {
             if (worldTime > cropChargeAtTotalHours && cropcharges < maxCropCharges && hivePopSize != EnumHivePopSize.Poor && quantityNearbyFlowers > 0)
             {
@@ -401,7 +396,7 @@ namespace FromGoldenCombs.BlockEntities
                     else if (block.BlockMaterial == EnumBlockMaterial.Other)
                     {
                         string path = block.Code.Path;
-                        BlockPos pos = new BlockPos(x, y, z, 0);
+                        BlockPos pos = new (x, y, z, 0);
                         if (block is LangstrothStack hive && Api.World.BlockAccessor.GetBlockEntity<BELangstrothStack>(pos).isHiveActive())
                         {
                             scanQuantityNearbyHives++;
@@ -410,7 +405,7 @@ namespace FromGoldenCombs.BlockEntities
                         {
                             scanQuantityNearbyHives++;
                         }
-                        if (!(block is BlockSkep) && !(block is BlockBeehive))
+                        if (block is not BlockSkep && block is not BlockBeehive)
                         {
                             return;
                         }
@@ -436,7 +431,7 @@ namespace FromGoldenCombs.BlockEntities
         {
             quantityNearbyFlowers = scanQuantityNearbyFlowers;
             quantityNearbyHives = scanQuantityNearbyHives;
-            emptySkeps = new List<BlockPos>(scanEmptySkeps);
+            emptySkeps = new(scanEmptySkeps);
 
             if (emptySkeps.Count == 0)
             {
@@ -455,7 +450,7 @@ namespace FromGoldenCombs.BlockEntities
             if (skepToPop != null && Api.World.Calendar.TotalHours > beginPopStartTotalHours + popHiveAfterHours)
             {
                 TryPopCurrentSkep();
-                //TODO: Implement variable length swarm lengths based on DaysPerMonth
+
                 cooldownUntilTotalHours = Api.World.Calendar.TotalHours + 8.0;
                 MarkDirty();
                 return;
@@ -466,7 +461,6 @@ namespace FromGoldenCombs.BlockEntities
 
             // factor = Clamped(livinghives / Math.Sqrt(flowers - 3 * livinghives - 3), 1, 1000)
             // After spreading: 4 extra days cooldown
-
             float swarmability = GameMath.Clamp(quantityNearbyFlowers - FGCServerConfig.Current.minFlowersPerHive - FGCServerConfig.Current.minFlowersPerHive * quantityNearbyHives, 0, 20) / 5f;
             // We want to translate the swarmability value 0..4
             // into swarm days 12..0
@@ -512,7 +506,7 @@ namespace FromGoldenCombs.BlockEntities
         private void TryPopCurrentSkep()
         {
             Block skepToPopBlock = Api.World.BlockAccessor.GetBlock(skepToPop, 0);
-            if (skepToPopBlock == null || !(skepToPopBlock is BlockSkep))
+            if (skepToPopBlock == null || skepToPopBlock is not BlockSkep)
             {
                 // Skep must have changed since last time we checked, so lets restart 
                 this.skepToPop = null;
@@ -545,14 +539,14 @@ namespace FromGoldenCombs.BlockEntities
             return false;
         }
 
-        public override void GetBlockInfo(IPlayer forPlayer, StringBuilder dsc)
+        public override void GetBlockInfo(IPlayer forPlayer, StringBuilder sb)
         {
             
             
             //Debug Information
             if (Api.World.EntityDebugMode && forPlayer.WorldData.CurrentGameMode == EnumGameMode.Creative)
             {
-                dsc.AppendLine(
+                sb.AppendLine(
                         Lang.Get("Nearby flowers: {0}, Nearby Hives: {1}, Empty Hives: {2}, Pop after hours: {3}. harvest in {4}, repop cooldown: {5}",
                         quantityNearbyFlowers,
                         quantityNearbyHives,
@@ -564,7 +558,6 @@ namespace FromGoldenCombs.BlockEntities
             }
 
             //General Information
-            ClimateCondition conds2 = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.NowValues);
             float todayNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays)) + 0.66f).Temperature;
             float yesterdayNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 1)) + 0.66f).Temperature;
             float twoDayAgoNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 2)) + 0.66f).Temperature;
@@ -623,17 +616,18 @@ namespace FromGoldenCombs.BlockEntities
                     hiveState += "\n" + Lang.Get("Will swarm in less than a day");
                 }
             }
-            dsc.AppendLine(hiveState);
-            if (this.roomness > 0)
+            sb.AppendLine(hiveState);
+            if (this.roomness > 0f)
             {
-                dsc.AppendLine("\n" + Lang.Get("greenhousetempbonus", Array.Empty<object>()));
+                sb.AppendLine("\n" + Lang.Get("greenhousetempbonus", Array.Empty<object>()));
                 
             }
             if (FGCServerConfig.Current.showExtraBeehiveInfo && (forPlayer.Entity.Controls.ShiftKey || FGCClientConfig.Current.alwaysShowExtraBeehiveInfo == true))
             {
-                dsc.AppendLine(tempReport);
-                dsc.AppendLine(Lang.Get("fromgoldencombs:croprange") + " " + cropChargeRange);
-                dsc.AppendLine(Lang.Get("fromgoldencombs:cropcharges") + " " + cropcharges);
+                sb.AppendLine(tempReport);
+                sb.AppendLine(Lang.Get("fromgoldencombs:croprange") + " " + cropChargeRange);
+                sb.AppendLine(Lang.Get("fromgoldencombs:cropcharges") + " " + cropcharges);
+                sb.AppendLine(Lang.Get("fromgoldencombs:cropboostpercentage") + " " + Math.Round(FGCServerConfig.Current.skepCropBoostPercentage * 100) + "%");
             }
         }
 
@@ -645,7 +639,7 @@ namespace FromGoldenCombs.BlockEntities
             tree.SetInt("scanIteration", scanIteration);
             tree.SetInt("quantityNearbyFlowers", quantityNearbyFlowers);
             tree.SetInt("quantityNearbyHives", quantityNearbyHives);
-            TreeAttribute treeAttribute = new TreeAttribute();
+            TreeAttribute treeAttribute = new();
             for (int i = 0; i < emptySkeps.Count; i++)
             {
                 treeAttribute.SetInt("posX-" + i, emptySkeps[i].X);
@@ -656,7 +650,7 @@ namespace FromGoldenCombs.BlockEntities
             tree["emptyskeps"] = treeAttribute;
             tree.SetInt("scanQuantityNearbyFlowers", scanQuantityNearbyFlowers);
             tree.SetInt("scanQuantityNearbyHives", scanQuantityNearbyHives);
-            TreeAttribute treeAttribute2 = new TreeAttribute();
+            TreeAttribute treeAttribute2 = new();
             for (int j = 0; j < scanEmptySkeps.Count; j++)
             {
                 treeAttribute2.SetInt("posX-" + j, scanEmptySkeps[j].X);

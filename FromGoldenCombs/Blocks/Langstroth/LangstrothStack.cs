@@ -14,7 +14,6 @@ namespace FromGoldenCombs.Blocks.Langstroth
         public override void OnLoaded(ICoreAPI api)
         {
             base.OnLoaded(api);
-            // Todo: Add interaction help
         }
         public override void OnNeighbourBlockChange(IWorldAccessor world, BlockPos pos, BlockPos neibpos)
         {
@@ -44,35 +43,32 @@ namespace FromGoldenCombs.Blocks.Langstroth
             if (this.EntityClass != null)
             {
                 BlockEntity blockEntity = world.BlockAccessor.GetBlockEntity(pos);
-                if (blockEntity != null)
-                {
-                    blockEntity.OnBlockBroken();
-                }
+                blockEntity?.OnBlockBroken();
             }
             world.BlockAccessor.SetBlock(0, pos);
         }
 
         public override float GetAmbientSoundStrength(IWorldAccessor world, BlockPos pos)
         {
-            float soundVolume = 0f;    
             if ((world.BlockAccessor.GetBlockEntity(pos) is BELangstrothStack stack && stack.isHiveActive())) {
-                    switch ((int)stack.HivePopSize)
-                    {
-                        case 0: soundVolume = 0.44f; break;
-                        case 1: soundVolume = 0.88f; break;
-                        default: soundVolume = 1f; break;
-                    }
-                    switch (FGCClientConfig.Current.hiveSoundVolume)
-                    {
-                        case "off": soundVolume *= 0f; break;
-                        case "soft": soundVolume *= 0.5f; break;
-                        case "normal": soundVolume *= 1f; break;
-                        case "high": soundVolume *= 2f; break;
-                        case "loud": soundVolume *= 4f; break;
-                        default: soundVolume *= 1f; break;
-                }
-                    soundVolume = Math.Max(soundVolume * stack.ActivityLevel, 0.25f);
-                    return soundVolume;
+                float v = (int)stack.HivePopSize switch
+                {
+                    0 => 0.44f,
+                    1 => 0.88f,
+                    _ => 1f,
+                };
+                float soundVolume = 0f;
+                soundVolume *= FGCClientConfig.Current.hiveSoundVolume switch
+                {
+                    "off" => 0f,
+                    "soft" => 0.5f,
+                    "normal" => 1f,
+                    "high" => 2f,
+                    "loud" => 4f,
+                    _ => 1f,
+                };
+                soundVolume = Math.Max((float)v * stack.ActivityLevel, 0.25f);
+                    return (float)v;
             }
             return 0f;
             
@@ -82,13 +78,12 @@ namespace FromGoldenCombs.Blocks.Langstroth
         {
 
             BELangstrothStack belangstrothstack = world.BlockAccessor.GetBlockEntity(blockSel.Position) as BELangstrothStack;
-            if (belangstrothstack is BELangstrothStack) return belangstrothstack.OnInteract(byPlayer);
-            return base.OnBlockInteractStart(world, byPlayer, blockSel);
+            return belangstrothstack is not null ? belangstrothstack.OnInteract(byPlayer) : base.OnBlockInteractStart(world, byPlayer, blockSel);
         }
 
         public override Cuboidf[] GetSelectionBoxes(IBlockAccessor blockAccessor, BlockPos pos)
         {
-            List<Cuboidf> curSelectionBoxes = new List<Cuboidf>();
+            List<Cuboidf> curSelectionBoxes = new();
             BELangstrothStack curBE = blockAccessor.GetBlockEntity<BELangstrothStack>(pos);
             curSelectionBoxes.Add(SelectionBoxes[0]);
 
@@ -108,7 +103,7 @@ namespace FromGoldenCombs.Blocks.Langstroth
 
         public override Cuboidf[] GetCollisionBoxes(IBlockAccessor blockAccessor, BlockPos pos)
         {
-            List<Cuboidf> curCollisionBoxes = new List<Cuboidf>();
+            List<Cuboidf> curCollisionBoxes = new ();
             BELangstrothStack curBE = blockAccessor.GetBlockEntity<BELangstrothStack>(pos);
             curCollisionBoxes.Add(SelectionBoxes[0]);
 
@@ -134,7 +129,7 @@ namespace FromGoldenCombs.Blocks.Langstroth
             {
 
                 return new WorldInteraction[] {
-                            new WorldInteraction() {
+                            new () {
                                     ActionLangCode = "fromgoldencombs:blockhelp-langstrothstack",
                                     MouseButton = EnumMouseButton.Right,
                             }

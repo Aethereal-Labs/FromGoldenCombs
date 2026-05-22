@@ -1,6 +1,5 @@
 ﻿using FromGoldenCombs.BlockEntities;
 using FromGoldenCombs.Util.Config;
-using FromGoldenCombs.Util.Config;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -11,7 +10,7 @@ using Vintagestory.API.MathTools;
 using Vintagestory.API.Util;
 using Vintagestory.GameContent;
 
-namespace FromGoldenCombs.Blocks
+namespace FromGoldenCombs.Blocks.ClaypotHive
 {
 
     class CeramicBroodPot : BlockContainer
@@ -44,23 +43,24 @@ namespace FromGoldenCombs.Blocks
         /// <returns>False if the interaction should be stopped. True if the interaction should continue. If you return false, the interaction will not be synced to the server.</returns>
         public override bool OnBlockInteractStart(IWorldAccessor world, IPlayer byPlayer, BlockSelection blockSel)
         {                      
-            BECeramicBroodPot beCeramicBroodPot = (BECeramicBroodPot)world.BlockAccessor.GetBlockEntity(blockSel.Position);         
-            if (beCeramicBroodPot is BECeramicBroodPot) return beCeramicBroodPot.OnInteract(byPlayer);
-            return base.OnBlockInteractStart(world, byPlayer, blockSel);
+            BECeramicBroodPot beCeramicBroodPot = (BECeramicBroodPot)world.BlockAccessor.GetBlockEntity(blockSel.Position);
+            return beCeramicBroodPot is not null ? beCeramicBroodPot.OnInteract(byPlayer) : base.OnBlockInteractStart(world, byPlayer, blockSel);
         }
 
         public override float GetAmbientSoundStrength(IWorldAccessor world, BlockPos pos)
         {
-            float soundVolume = 0f;
+            float soundVolume;
                 if (world.BlockAccessor.GetBlockEntity(pos) is BECeramicBroodPot pot && pot.isActiveHive)
                 {
-                    switch ((int)pot.HivePopSize)
-                    {
-                        case 0: soundVolume = 0.44f; break;
-                        case 1: soundVolume = 0.88f; break;
-                        default: soundVolume = 1f; break;
-                    }
-                    switch (FGCClientConfig.Current.hiveSoundVolume)
+
+                soundVolume = (int)pot.HivePopSize switch
+                {
+                    0 => 0.44f,
+                    1 => 0.88f,
+                    _ => 1f,
+                };
+
+                switch (FGCClientConfig.Current.hiveSoundVolume)
                     {
                         case "off": soundVolume = 0f; break;
                         case "soft": soundVolume *= 0.5f; break;
@@ -108,10 +108,7 @@ namespace FromGoldenCombs.Blocks
             {
                 
                 ItemStack stack = this.OnPickBlock(world, pos);
-                if(beCeramicBroodPot != null)
-                {
-                    beCeramicBroodPot.SetAttributesOnPickup(stack);
-                }
+                beCeramicBroodPot?.SetAttributesOnPickup(stack);
                 world.SpawnItemEntity(stack, new Vec3d((double)pos.X + 0.5, (double)pos.Y + 0.5, (double)pos.Z + 0.5));
                 world.PlaySoundAt(Sounds.GetBreakSound(byPlayer), pos.X, pos.Y, pos.Z, 1);
             }
@@ -145,8 +142,7 @@ namespace FromGoldenCombs.Blocks
             if (world.BlockAccessor.GetBlockEntity(selection.Position) is BECeramicBroodPot pot)
             {
                 List<ItemStack> topList = new();
-                topList.Add(new ItemStack(api.World.BlockAccessor.GetBlock(new AssetLocation("fromgoldencombs", "hivetop-empty"))));
-                topList.Add(new ItemStack(api.World.BlockAccessor.GetBlock(new AssetLocation("fromgoldencombs", "hivetop-harvestable"))));
+                topList.Add(new ItemStack(api.World.BlockAccessor.GetBlock(new AssetLocation("fromgoldencombs", "hivetop-blue-fired"))));
 
                 if (pot != null)
                 {
@@ -163,7 +159,7 @@ namespace FromGoldenCombs.Blocks
 
                             return new WorldInteraction[]
                             {
-                            new WorldInteraction(){
+                            new (){
                                 ActionLangCode = "fromgoldencombs:blockhelp-ceramichive-empty-notop",
                                 MouseButton = EnumMouseButton.Right,
                                 Itemstacks = skepList.ToArray()
@@ -179,7 +175,7 @@ namespace FromGoldenCombs.Blocks
 
                         return new WorldInteraction[]
                         {
-                                new WorldInteraction(){
+                                new (){
                                     ActionLangCode = Lang.Get("fromgoldencombs:placepot"),
                                     MouseButton = EnumMouseButton.Right,
                                     Itemstacks = topList.ToArray()
@@ -195,7 +191,7 @@ namespace FromGoldenCombs.Blocks
 
                         return new WorldInteraction[]
                         {
-                                new WorldInteraction(){
+                                new (){
                                     ActionLangCode = Lang.Get("fromgoldencombs:removepot"),
                                     MouseButton = EnumMouseButton.Right
                             }
@@ -209,7 +205,7 @@ namespace FromGoldenCombs.Blocks
 
                         return new WorldInteraction[]
                         {
-                                new WorldInteraction(){
+                                new (){
                                     ActionLangCode = Lang.Get("fromgoldencombs:emptybagslot"),
                                     MouseButton = EnumMouseButton.Right,
                                     Itemstacks = null

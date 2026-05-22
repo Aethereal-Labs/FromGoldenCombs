@@ -8,7 +8,7 @@ namespace FromGoldenCombs.Util.Config
     class FGCServerConfig
     {
         [ProtoMember(1)]
-        public double ConfigVersion = 1.6;
+        public double ConfigVersion = 1.7;
         [ProtoMember(2)]
         public bool retainConfigOnVersionChange = false;
         [ProtoMember(3)]
@@ -78,9 +78,15 @@ namespace FromGoldenCombs.Util.Config
         [ProtoMember(35)]
         public int minFlowersPerHive = 3;
         [ProtoMember(36)]
-        public bool canPlaceCeramicOnFence = true;
+        public bool canPlaceCeramicOnFence = false;
         [ProtoMember(37)]
-        public bool canPlaceLangstrothOnFence = true;
+        public bool canPlaceLangstrothOnFence = false;
+        [ProtoMember(38)]
+        public float langstrothCropBoostPercentage = 0.30f;
+        [ProtoMember(39)]
+        public float ceramicCropBoostPercentage = 0.20f;
+        [ProtoMember(40)]
+        public float skepCropBoostPercentage = 0.10f;
 
 
         public FGCServerConfig()
@@ -93,7 +99,7 @@ namespace FromGoldenCombs.Util.Config
         {
             FGCServerConfig defaultServerConfig = new();
 
-            defaultServerConfig.ConfigVersion = 1.6;
+            defaultServerConfig.ConfigVersion = 1.7;
             defaultServerConfig.retainConfigOnVersionChange = false;
             defaultServerConfig.SkepDaysToHarvestIn30DayMonths = 7;
             defaultServerConfig.ClayPotDaysToHarvestIn30DayMonths = 7;
@@ -132,6 +138,10 @@ namespace FromGoldenCombs.Util.Config
             defaultServerConfig.minFlowersPerHive = 3;
             defaultServerConfig.canPlaceCeramicOnFence = false;
             defaultServerConfig.canPlaceLangstrothOnFence = false;
+            defaultServerConfig.langstrothCropBoostPercentage = 0.30f;
+            defaultServerConfig.ceramicCropBoostPercentage = 0.20f;
+            defaultServerConfig.skepCropBoostPercentage = 0.10f;
+
             return defaultServerConfig;
         }
 
@@ -140,7 +150,7 @@ namespace FromGoldenCombs.Util.Config
 
             try
             {
-                var ServerConfig = api.LoadModConfig<FGCServerConfig>("fromgoldencombs/fromgoldencombsserver.json");
+                FGCServerConfig ServerConfig = api.LoadModConfig<FGCServerConfig>("fromgoldencombs/fromgoldencombsserver.json");
                 if (ServerConfig != null && ServerConfig.ConfigVersion == FGCServerConfig.GetServerDefault().ConfigVersion)
                 {
                     api.Logger.Notification(Lang.Get("fromgoldencombs:modserverconfigload"));

@@ -17,8 +17,6 @@ namespace FromGoldenCombs.Util.HarmonyPatches
         private Harmony harmony;
         private readonly string harmonyId = "vinternacht.FGCPatches";
 
-        private static ICoreServerAPI sapi;
-        private static IWorldGenBlockAccessor thisBlockAccessor;
 
         public override void Start(ICoreAPI api)
         {
@@ -53,7 +51,7 @@ namespace FromGoldenCombs.Util.HarmonyPatches
                     }
                     if (byPlayer != null)
                     {
-                        TreeAttribute tree = new TreeAttribute();
+                        TreeAttribute tree = new ();
                         tree.SetInt("x", __instance.Pos.X);
                         tree.SetInt("y", __instance.Pos.Y);
                         tree.SetInt("z", __instance.Pos.Z);
@@ -68,7 +66,7 @@ namespace FromGoldenCombs.Util.HarmonyPatches
         {
  
             float soundVolume = 0f;
-            if (__instance is BlockBeehive wildHive)
+            if (__instance is BlockBeehive)
             {
                 switch (FGCClientConfig.Current.wildHiveSoundVolume)
                 {
@@ -83,13 +81,23 @@ namespace FromGoldenCombs.Util.HarmonyPatches
                 
             if (world.BlockAccessor.GetBlockEntity(pos) is BEFGCBeehive skep)
             {
-                
-                switch ((int)skep.hivePopSize)
+
+                //Below switch statement converted from the below. Seems to be possible because of numbers?
+                //soundVolume = 0f;
+                //
+                //switch ((int)skep.hivePopSize)
+                //{
+                //    case 0: soundVolume = 0.44f; break;
+                //    case 1: soundVolume = 0.88f; break;
+                //    default: soundVolume = 1f; break;
+                //}
+                soundVolume = (int)skep.hivePopSize switch
                 {
-                    case 0: soundVolume = 0.44f; break;
-                    case 1: soundVolume = 0.88f; break;
-                    default: soundVolume = 1f; break;
-                }
+                    0 => 0.44f,
+                    1 => 0.88f,
+                    _ => 1f,
+                };
+                
                 switch (FGCClientConfig.Current.hiveSoundVolume)
                 {
                     case "off": soundVolume = 0f; break;
@@ -113,8 +121,6 @@ namespace FromGoldenCombs.Util.HarmonyPatches
         {
             harmony?.UnpatchAll();
             harmony = null;
-            sapi = null;
-            thisBlockAccessor = null;
 
         }
     }

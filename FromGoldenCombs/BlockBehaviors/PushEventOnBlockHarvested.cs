@@ -18,7 +18,6 @@ namespace FromGoldenCombs.BlockBehaviors
         {
             base.Initialize(properties);
             this._eventName = properties["eventname"].ToString();
-            this._beeChanceMultiplier = FGCServerConfig.Current.cropBoostPercentage;
         }
 
         public override void OnLoaded(ICoreAPI api)
@@ -45,10 +44,11 @@ namespace FromGoldenCombs.BlockBehaviors
             BEBehaviorFruitingBush bebfb= be.GetBehavior<BEBehaviorFruitingBush>();
             BlockBehaviorFruitingBush bbfb = bushBlock.GetBehavior<BlockBehaviorFruitingBush>();
             handled = EnumHandling.Handled;
+            float harvestMul = 1f;
 
             if (bebfb != null)
             {
-                float harvestMul = 1f;
+                
                 if (bebfb.BState.Traits.Contains("weakclusteredberries"))
                 {
                     harvestMul = 1.35f;
@@ -60,14 +60,13 @@ namespace FromGoldenCombs.BlockBehaviors
                 float HarvestDuration = bebfb.GetHarvestDuration(byPlayer.InventoryManager.ActiveHotbarSlot, byPlayer.Entity);
                 harvestTime = bbfb.harvestTime;
             }
-            if (/*bbfb != null && blockSel != null && */secondsUsed > harvestTime 
-                /*&& bbfb.harvestedStacks != null*/ && world.Side == EnumAppSide.Server)
+            if (secondsUsed > harvestTime)
             {
                 float dropRate = 0f;
                 JsonObject attributes = this.block.Attributes;
-                if (attributes != null && (attributes.IsTrue("forageStatAffected") || bebfb.BState.WildBushState == null))
+                if (attributes != null && (attributes.IsTrue("forageStatAffected") || bebfb?.BState?.WildBushState == null))
                 {
-                    TreeAttribute tree = new TreeAttribute();
+                    TreeAttribute tree = new();
                     tree.SetInt("x", blockSel.Position.X);
                     tree.SetInt("y", blockSel.Position.Y);
                     tree.SetInt("z", blockSel.Position.Z);
@@ -83,18 +82,16 @@ namespace FromGoldenCombs.BlockBehaviors
                     {
                         bbfb.harvestedStacks.Foreach(delegate (BlockDropItemStack harvestedStack)
                         {
-                            ItemStack stack = harvestedStack.GetNextItemStack(dropRate);
+                            ItemStack stack = harvestedStack.GetNextItemStack(dropRate*harvestMul).Clone();
                             if (stack == null)
                             {
                                 return;
                             }
-                            ItemStack origStack = stack.Clone();
                             if (!byPlayer.InventoryManager.TryGiveItemstack(stack, false))
                             {
                                 world.SpawnItemEntity(stack, blockSel.Position, null);
                             }
                         });
-                        //world.PlaySoundAt(bbfb.HarvestingSound, blockSel.Position, 0.0, byPlayer, true, 32f, 1f);
                     }
                     else
                     {
@@ -111,17 +108,21 @@ namespace FromGoldenCombs.BlockBehaviors
                             {
                                 world.SpawnItemEntity(newStack, blockSel.Position, null);
                             }
-                            //world.PlaySoundAt(block.Sounds.GetHitSound(byPlayer), byPlayer);
                         });
                     }
                 }
                 useBeeBoost = false;
+                _beeChanceMultiplier = 0;
                 
             }
         }
 
+        
+
         private string _eventName;
         private float _beeChanceMultiplier;
+        public float beeChanceMultiplier { get => _beeChanceMultiplier; set => _beeChanceMultiplier = value; }
+
         public bool useBeeBoost = false;
     }
 }
