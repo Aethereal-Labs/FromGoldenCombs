@@ -394,7 +394,7 @@ namespace FromGoldenCombs.BlockEntities
             return roomness > 0 ? 5f : 0f;
         }
 
-        private int GetRoomness(Room room)
+        private int CalculateRoomness(Room room)
         {
             return (room != null && room.SkylightCount > room.NonSkylightCount && room.ExitCount == 0) ? 1 : 0;
         }
@@ -456,7 +456,7 @@ namespace FromGoldenCombs.BlockEntities
             if (isActiveHive)
             {
                 Room room = roomreg?.GetRoomForPosition(Pos);
-                roomness = GetRoomness(room);
+                roomness = CalculateRoomness(room);
                 
                 if (_activityLevel <= 0) return;
                 if (Api.Side == EnumAppSide.Client) return;

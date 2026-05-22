@@ -248,7 +248,7 @@ namespace FromGoldenCombs.BlockEntities
             return roomness > 0 ? 5f : 0f;
         }
 
-        private int GetRoomness(Room room)
+        private int CalculateRoomness(Room room)
         {
             return (room != null && room.SkylightCount > room.NonSkylightCount && room.ExitCount == 0) ? 1 : 0;
         }
@@ -369,7 +369,7 @@ namespace FromGoldenCombs.BlockEntities
         private void OnScanForEmptySkep(float dt)
         {
             Room room = roomreg?.GetRoomForPosition(Pos);
-            roomness = GetRoomness(room);
+            roomness = CalculateRoomness(room);
             MarkDirty();
             if (actvitiyLevel <= 0) return;
             if (Api.Side == EnumAppSide.Client) return;
