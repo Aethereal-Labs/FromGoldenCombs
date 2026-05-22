@@ -12,7 +12,6 @@ using Vintagestory.API.Datastructures;
 using Vintagestory.API.MathTools;
 using Vintagestory.API.Util;
 using Vintagestory.GameContent;
-using static OpenTK.Graphics.OpenGL.GL;
 
 namespace FromGoldenCombs.BlockEntities
 {
@@ -244,6 +243,11 @@ namespace FromGoldenCombs.BlockEntities
             cropcharges--;
         }
 
+        private float GetGreenhouseBonus()
+        {
+            return roomness > 0 ? 5f : 0f;
+        }
+
         private double GetHarvestTime()
         {
             Random rand = new();
@@ -309,9 +313,9 @@ namespace FromGoldenCombs.BlockEntities
             float twoDayAgoNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 2)) + 0.66f).Temperature;
             if (conds == null) return;
 
-            float threeDayTemp = (todayNoonTemp * 2 + yesterdayNoonTemp + twoDayAgoNoonTemp) / 4 + (roomness > 0 ? 5 : 0);
+            float threeDayTemp = (todayNoonTemp * 2 + yesterdayNoonTemp + twoDayAgoNoonTemp) / 4 + GetGreenhouseBonus();
             float optimalTemp = (maxTemp + minTemp) / 2;
-            double distance = Math.Abs((conds.Temperature + (roomness > 0 ? 5 : 0)) - optimalTemp); //The roomness is added to account for the presence of a greenhouse
+            double distance = Math.Abs((conds.Temperature + GetGreenhouseBonus()) - optimalTemp); //The roomness is added to account for the presence of a greenhouse
             double range = Math.Max(maxTemp - optimalTemp, optimalTemp - minTemp);
             float beeParticleModifier = 1f - (float)(distance / range);
             actvitiyLevel = GameMath.Clamp(beeParticleModifier, 0f, 1f);
@@ -559,7 +563,7 @@ namespace FromGoldenCombs.BlockEntities
             float todayNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays)) + 0.66f).Temperature;
             float yesterdayNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 1)) + 0.66f).Temperature;
             float twoDayAgoNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 2)) + 0.66f).Temperature;
-            float threeDayTemp = (todayNoonTemp * 2 + yesterdayNoonTemp + twoDayAgoNoonTemp) / 4 + (roomness > 0 ? 5 : 0);
+            float threeDayTemp = (todayNoonTemp * 2 + yesterdayNoonTemp + twoDayAgoNoonTemp) / 4 + GetGreenhouseBonus();
             float minTemp = FGCServerConfig.Current.SkepHiveMinTemp;
             float maxTemp = FGCServerConfig.Current.SkepHiveMaxTemp;
 
