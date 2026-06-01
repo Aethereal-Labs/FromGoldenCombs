@@ -706,11 +706,6 @@ namespace FromGoldenCombs.BlockEntities
             return false;
         }
 
-        private float GetGreenhouseBonus()
-        {
-            return roomness > 0 ? 5f : 0f;
-        }
-
         private int CalculateRoomness(Room room)
         {
             return (room != null && room.SkylightCount > room.NonSkylightCount && room.ExitCount == 0) ? 1 : 0;
@@ -1077,11 +1072,11 @@ namespace FromGoldenCombs.BlockEntities
                     
                     sb.AppendLine(hiveState);
                     sb.AppendLine();
-                    if (curTemp < minTemp)
+                    if (curTemp + (roomness > 0 ? 5 : 0) < minTemp )
                     {
                         sb.AppendLine(Lang.Get("fromgoldencombs:toocold"));
                     }
-                    else if (curTemp > maxTemp)
+                    else if (curTemp + (roomness > 0 ? 5 : 0) > maxTemp)
                     {
                         sb.AppendLine(Lang.Get("fromgoldencombs:toohot"));
                     }
@@ -1125,7 +1120,7 @@ namespace FromGoldenCombs.BlockEntities
 
                 if (bottomStack._isActiveHive && bottomStack.linedFrames <= 0)
                 {
-                    if (bottomStack.harvestableFrames == bottomStack.totalFrames)
+                    if ((bottomStack.harvestableFrames == bottomStack.totalFrames) && bottomStack.totalFrames != 0)
                     {
                         sb.AppendLine();
                         sb.AppendLine(Lang.Get("fromgoldencombs:allframesfilled"));

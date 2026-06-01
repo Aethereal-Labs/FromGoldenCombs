@@ -67,7 +67,7 @@
     "*-gray-fired",
     "*-orange-fired",
     "*-tan-fired",
-    "*-harvestorange-fired"
+    "*-earthyorange-fired"
   ]
 },
   "texturesByType": {		
@@ -96,6 +96,17 @@
   },
   lightAbsorption: 0,
   "combustiblePropsByType": {
+    "*-red": {
+      "meltingPoint": 600,
+      "meltingDuration": 45,
+      "smeltedRatio": 1,
+      "smeltingType": "fire",
+      "smeltedStack": {
+        "type": "block",
+        "code": "fromgoldencombs:hivetop-earthyorange-fired"
+      },
+      "requiresContainer": false
+    },
     "*-raw": {
       "meltingPoint": 600,
       "meltingDuration": 45,

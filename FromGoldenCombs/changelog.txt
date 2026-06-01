@@ -1,7 +1,9 @@
-1.22-v2.0.5
+1.22-v2.0.6
 - Minor fix to eliminate problem with Mac ARM16.
+- Integration of Pull Request from TiMMyyMMiT for compatibility with Shadehouses.
+- Correct smelting recipes for ceramic brood pots and honey pots so red outputs Earthy Orange.
 
-1-22-v2.0.4
+1-22-v2.0.5
 - Ongoing polishing of the lang files.
 - Fixed bug with ceramic pots that caused it to crash when looking for a non-existant block.
 
