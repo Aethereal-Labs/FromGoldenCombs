@@ -484,8 +484,7 @@ namespace FromGoldenCombs.BlockEntities
                 beeParticleModifier = GameMath.Clamp(beeParticleModifier, 0f, 1f);
                 _activityLevel = beeParticleModifier;
 
-                Room room = roomreg?.GetRoomForPosition(Pos);
-                roomness = (room != null && room.SkylightCount > room.NonSkylightCount && room.ExitCount == 0) ? 1 : 0;
+                _roomness = (room != null && room.SkylightCount > room.NonSkylightCount && room.ExitCount == 0) ? 1 : 0;
                 
                 if (_activityLevel <= 0) return;
                 if (Api.Side == EnumAppSide.Client) return;
@@ -546,6 +545,10 @@ namespace FromGoldenCombs.BlockEntities
             _hivePopSize = (EnumHivePopSize)GameMath.Clamp(quantityNearbyFlowers - FGCServerConfig.Current.minFlowersPerHive * quantityNearbyHives, 0, 2); ;
         }
 
+        public int CalculateRoomness(Room room)
+        {
+            return (room != null && room.SkylightCount > room.NonSkylightCount && room.ExitCount == 0) ? 1 : 0;
+        }
 
         #region Pollination Code
         public void OnPollinationNearby(string eventName, BlockPos cropPos, ref EnumHandling handling, IAttribute data)
