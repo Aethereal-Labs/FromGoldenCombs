@@ -52,7 +52,7 @@ namespace FromGoldenCombs.Blocks.ClaypotHive
             float soundVolume;
                 if (world.BlockAccessor.GetBlockEntity(pos) is BECeramicBroodPot pot && pot.isActiveHive)
                 {
-
+                if(pot.roomness > 0 && !FGCServerConfig.Current.enabledGreenHouse) return 0;
                 soundVolume = (int)pot.HivePopSize switch
                 {
                     0 => 0.44f,

@@ -19,7 +19,7 @@ namespace FromGoldenCombs.BlockEntities
 {
     class BEFGCBeehive : BlockEntityBeehive, IAnimalFoodSource
     {
-            
+
         // Stored values
         int scanIteration;
         int quantityNearbyFlowers;
@@ -56,9 +56,11 @@ namespace FromGoldenCombs.BlockEntities
         private Vec3f minVelo = new();
         private Vec3f maxVelo = new();
         public float actvitiyLevel;
-        public float roomness;
+        int _roomness;
+        
         private string material;
         public new Vec3d Position => Pos.ToVec3d().Add(0.5, 0.5, 0.5);
+        public int roomness { get => _roomness; }
 
         static BEFGCBeehive()
             {
@@ -83,6 +85,7 @@ namespace FromGoldenCombs.BlockEntities
             this.RegisterGameTickListener(new Action<float>(this.TestHarvestable), 3000, 0);
             this.RegisterGameTickListener(new Action<float>(this.OnScanForEmptySkep), api.World.Rand.Next(5000) + 30000, 0);
             this.roomreg = this.Api.ModLoader.GetModSystem<RoomRegistry>(true);
+            _roomness = CalculateRoomness(roomreg.GetRoomForPosition(Pos));
             if (api.Side == EnumAppSide.Client)
             {
                 this.RegisterGameTickListener(new Action<float>(this.SpawnBeeParticles), 300, 0);
@@ -113,7 +116,10 @@ namespace FromGoldenCombs.BlockEntities
 
         public void OnPollinationNearby(string eventName, BlockPos cropPos, ref EnumHandling handling, IAttribute data)
         {
-            
+            Room room = roomreg?.GetRoomForPosition(Pos);
+            if (Api.Side.IsClient()) return;
+            if (roomness > 0 && !FGCServerConfig.Current.enabledGreenHouse) return;
+            if (_roomness != 0 && FGCServerConfig.Current.enabledInRoomOnly && !room.Contains(cropPos)) return;
             int deltaX = cropPos.X - Pos.X;
             int deltaY = cropPos.Y - Pos.Y;
             int deltaZ = cropPos.Z - Pos.Z;
@@ -239,6 +245,16 @@ namespace FromGoldenCombs.BlockEntities
             cropcharges--;
         }
 
+        private float GetGreenhouseBonus()
+        {
+            return _roomness > 0 ? 5f : 0f;
+        }
+
+        private int CalculateRoomness(Room room)
+        {
+            return (room != null && room.SkylightCount > room.NonSkylightCount && room.ExitCount == 0) ? 1 : 0;
+        }
+
         private double GetHarvestTime()
         {
             Random rand = new();
@@ -250,7 +266,7 @@ namespace FromGoldenCombs.BlockEntities
         {
             float dayLightStrength = Api.World.Calendar.GetDayLightStrength(Pos.X, Pos.Z);
             if (Api.World.Rand.NextDouble() > 2 * dayLightStrength - 0.5) return;
-
+            if (_roomness > 0 && !FGCServerConfig.Current.enabledGreenHouse) return;
             Random rand = Api.World.Rand;
             
             Bees.MinQuantity = actvitiyLevel;
@@ -309,12 +325,13 @@ namespace FromGoldenCombs.BlockEntities
             double distance = Math.Abs((conds.Temperature + (roomness > 0 ? 5 : 0)) - optimalTemp); //The roomness is added to account for the presence of a greenhouse
             double range = Math.Max(maxTemp - optimalTemp, optimalTemp - minTemp);
             float beeParticleModifier = 1f - (float)(distance / range);
+            if (_roomness != 0 && !FGCServerConfig.Current.enabledGreenHouse) return;
+            
             actvitiyLevel = GameMath.Clamp(beeParticleModifier, 0f, 1f);
             //Reset timers during winter - Vanilla Settings
             //if (temp <= -10)
             //Reset timers when temp drops below 15c - FGC Settings
             bool tempOutOfRange = false;
-
             if (threeDayTemp < minTemp || threeDayTemp > maxTemp && quantityNearbyFlowers != 0)
             {
                 harvestableAtTotalHours = worldTime + GetHarvestTime();
@@ -355,12 +372,12 @@ namespace FromGoldenCombs.BlockEntities
         private void OnScanForEmptySkep(float dt)
         {
             Room room = roomreg?.GetRoomForPosition(Pos);
-            roomness = (room != null && room.SkylightCount > room.NonSkylightCount && room.ExitCount == 0) ? 1 : 0;
+            _roomness = CalculateRoomness(room);
             MarkDirty();
             if (actvitiyLevel <= 0) return;
             if (Api.Side == EnumAppSide.Client) return;
             if (Api.World.Calendar.TotalHours < cooldownUntilTotalHours) return;
-
+            if (_roomness > 0 && !FGCServerConfig.Current.enabledGreenHouse) return;
             if (scanIteration == 0)
             {
                 scanQuantityNearbyFlowers = 0;
@@ -547,7 +564,11 @@ namespace FromGoldenCombs.BlockEntities
                         (cooldownUntilTotalHours - Api.World.Calendar.TotalHours).ToString("#.##"))
                         + "\n" + Lang.Get("Population Size: ") + hivePopSize);
             }
-
+            if (_roomness != 0 && !FGCServerConfig.Current.enabledGreenHouse)
+            {
+                sb.AppendLine(Lang.Get("fromgoldencombs:hivescannotworkinrooms"));
+                return;
+            }
             //General Information
             float todayNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays)) + 0.66f).Temperature;
             float yesterdayNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 1)) + 0.66f).Temperature;
@@ -608,7 +629,7 @@ namespace FromGoldenCombs.BlockEntities
                 }
             }
             sb.AppendLine(hiveState);
-            if (this.roomness > 0f)
+            if (this._roomness > 0f)
             {
                 sb.AppendLine("\n" + Lang.Get("greenhousetempbonus", Array.Empty<object>()));
                 
@@ -660,7 +681,7 @@ namespace FromGoldenCombs.BlockEntities
             tree.SetDouble("cooldownUntilTotalHours", cooldownUntilTotalHours);
             tree.SetDouble("harvestableAtTotalHours", harvestableAtTotalHours);
             tree.SetInt("hiveHealth", (int)hivePopSize);
-            tree.SetFloat("roomness", roomness);
+            tree.SetInt("roomness", _roomness);
             tree.SetDouble("cropChargeAtTotalHours", cropChargeAtTotalHours);
             tree.SetInt("cropcharges", cropcharges);
         }
@@ -709,7 +730,7 @@ namespace FromGoldenCombs.BlockEntities
             cooldownUntilTotalHours = tree.GetDouble("cooldownUntilTotalHours");
             harvestableAtTotalHours = tree.GetDouble("harvestableAtTotalHours");
             hivePopSize = (EnumHivePopSize)tree.GetInt("hiveHealth");
-            roomness = tree.GetFloat("roomness");
+            _roomness = tree.GetInt("roomness");
             cropChargeAtTotalHours = tree.GetDouble("cropChargeAtTotalHours");
             cropcharges = tree.GetInt("cropcharges");
             if (Harvestable != harvestable && Api != null)

@@ -87,6 +87,10 @@ namespace FromGoldenCombs.Util.Config
         public float ceramicCropBoostPercentage = 0.20f;
         [ProtoMember(40)]
         public float skepCropBoostPercentage = 0.10f;
+        [ProtoMember(41)]
+        public bool enabledInRoomOnly = false;
+        [ProtoMember(42)]
+        public bool enabledGreenHouse = true;
 
 
         public FGCServerConfig()
@@ -99,7 +103,7 @@ namespace FromGoldenCombs.Util.Config
         {
             FGCServerConfig defaultServerConfig = new();
 
-            defaultServerConfig.ConfigVersion = 1.7;
+            defaultServerConfig.ConfigVersion = 1.8;
             defaultServerConfig.retainConfigOnVersionChange = false;
             defaultServerConfig.SkepDaysToHarvestIn30DayMonths = 7;
             defaultServerConfig.ClayPotDaysToHarvestIn30DayMonths = 7;
@@ -141,6 +145,8 @@ namespace FromGoldenCombs.Util.Config
             defaultServerConfig.langstrothCropBoostPercentage = 0.30f;
             defaultServerConfig.ceramicCropBoostPercentage = 0.20f;
             defaultServerConfig.skepCropBoostPercentage = 0.10f;
+            defaultServerConfig.enabledInRoomOnly = true;
+            defaultServerConfig.enabledGreenHouse = true;
 
             return defaultServerConfig;
         }

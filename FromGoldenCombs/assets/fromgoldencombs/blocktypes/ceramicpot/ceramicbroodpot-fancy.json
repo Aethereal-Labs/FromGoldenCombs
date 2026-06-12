@@ -58,9 +58,10 @@
 		{ "code": "top", "states": ["withtop", "notop"]}
 	],
 	
-	"shape": {"base": "fromgoldencombs:block/hive/ceramic/ceramicbroodpot-update"},
+	"shape": {"base": "fromgoldencombs:block/hive/ceramic/ceramicbroodpot-special"},
 	"textures": {
-			"clay": { base: "game:block/clay/vessel/sides/{color}" },
+		"pattern1": { "base": "game:block/clay/vessel/sides/{color}" },
+		"pattern2": { "base": "game:block/clay/vessel/top/{color}" }
 	},
 	sounds: {
 		place: "game:block/planks",

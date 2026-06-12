@@ -1,7 +1,18 @@
-1.22-v2.0.5
+1.22-v2.0.8
+- Ceramic Hives failed to communicate roomness properly. (Two conflicting entries in Tree Attributes were the culprit)
+- Updated Ceramic Hive Texture UVs for Artisan Only Versions, they look much  nicer now.
+
+1.22-v2.0.7
+- Bees buzz in hives again (Sorry this took so long)
+- Ceramic Hives produce bee particles again
+- Added Config to Determine if Beehives work in Rooms (Greenhouses) - Default True
+- Added Config to Determine if Beehives will detect flowers and crops outside the room they're in - Default False
+
+1.22-v2.0.6
 - Minor fix to eliminate problem with Mac ARM16.
 
-1-22-v2.0.4
+
+1-22-v2.0.5
 - Ongoing polishing of the lang files.
 - Fixed bug with ceramic pots that caused it to crash when looking for a non-existant block.
 

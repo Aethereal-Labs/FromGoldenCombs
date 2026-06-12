@@ -26,9 +26,11 @@
       ]
     }
   },
-  "textures": {		
-    "clay": { base: "game:block/clay/vessel/sides/{color}" }
-    },
+  "textures": {
+    "pattern1": { "base": "game:block/clay/vessel/sides/{color}" },
+    "pattern2": { "base": "game:block/clay/vessel/top/{color}" },
+    "pattern3": { "base": "game:block/clay/vessel/inside/{color}" }
+  },
   "variantgroups": [
 		{ "code": "color", "states": [ "ashforest", "chthonic", "copper", 
 																	 "earthen", "rain", "cowrie", "rime", "oxblood", "loam", "undergrowth", 
@@ -37,8 +39,8 @@
 		{ "code": "type", "states": [ "fired", "harvestable"] }
 	],
   "shapebytype": {
-    "*-fired": { "base": "block/hive/ceramic/hivetop-empty"},
-    "*-harvestable": { "base": "block/hive/ceramic/hivetop-harvestable" }
+    "*-fired": { "base": "block/hive/ceramic/hivetop-special-empty"},
+    "*-harvestable": { "base": "block/hive/ceramic/hivetop-special-harvestable" }
   },
   lightAbsorption: 0,
   "blockmaterial": "Ceramic",

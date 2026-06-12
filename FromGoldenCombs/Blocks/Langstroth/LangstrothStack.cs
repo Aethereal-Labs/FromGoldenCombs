@@ -51,13 +51,17 @@ namespace FromGoldenCombs.Blocks.Langstroth
         public override float GetAmbientSoundStrength(IWorldAccessor world, BlockPos pos)
         {
             if ((world.BlockAccessor.GetBlockEntity(pos) is BELangstrothStack stack && stack.isHiveActive())) {
+                if (stack.roomness > 0 && !FGCServerConfig.Current.enabledGreenHouse) return 0;
+                {
+                    return 0f;
+                }
                 float v = (int)stack.HivePopSize switch
                 {
                     0 => 0.44f,
                     1 => 0.88f,
                     _ => 1f,
                 };
-                float soundVolume = 0f;
+                float soundVolume = soundVolume = Math.Max((float)v * stack.ActivityLevel, 0.25f); 
                 soundVolume *= FGCClientConfig.Current.hiveSoundVolume switch
                 {
                     "off" => 0f,
@@ -67,8 +71,8 @@ namespace FromGoldenCombs.Blocks.Langstroth
                     "loud" => 4f,
                     _ => 1f,
                 };
-                soundVolume = Math.Max((float)v * stack.ActivityLevel, 0.25f);
-                    return (float)v;
+               
+                    return (soundVolume);
             }
             return 0f;
             
