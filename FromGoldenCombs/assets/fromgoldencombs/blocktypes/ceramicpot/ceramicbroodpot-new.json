@@ -162,6 +162,17 @@
 		"ambient": "game:creature/beehive"
 	},
 	"combustiblePropsByType": {
+    "*-red": {
+      "meltingPoint": 650,
+      "meltingDuration": 45,
+      "smeltedRatio": 1,
+      "smeltingType": "fire",
+      "smeltedStack": {
+        "type": "block",
+        "code": "fromgoldencombs:ceramicbroodpot-earthyorange-notop"
+      },
+      "requiresContainer": false
+    },
 		"*-raw": {
 			"meltingPoint": 650,
 			"meltingDuration": 45,

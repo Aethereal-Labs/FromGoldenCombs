@@ -30,6 +30,7 @@ namespace FromGoldenCombs.BlockEntities
         private RoomRegistry roomreg;
         int _roomness;
         public int roomness { get => _roomness; }
+        int roomness;
         public static SimpleParticleProperties Bees;
         int scanQuantityNearbyFlowers;
         int scanQuantityNearbyHives;
@@ -724,6 +725,10 @@ namespace FromGoldenCombs.BlockEntities
             return false;
         }
 
+        private int CalculateRoomness(Room room)
+        {
+            return (room != null && room.SkylightCount > room.NonSkylightCount && room.ExitCount == 0) ? 1 : 0;
+        }
 
         //ReturnStackSize
         public int StackSize()
@@ -961,7 +966,7 @@ namespace FromGoldenCombs.BlockEntities
             {
 
                 Room room = roomreg?.GetRoomForPosition(Pos);
-                roomness = (room != null && room.SkylightCount > room.NonSkylightCount && room.ExitCount == 0) ? 1 : 0;
+                roomness = CalculateRoomness(room);
 
                 double distance = Math.Abs(effectiveTemp - optimalTemp);
                 double range = Math.Max(maxTemp - optimalTemp, optimalTemp - minTemp);
@@ -986,7 +991,7 @@ namespace FromGoldenCombs.BlockEntities
                 {
                     BlockPos curPos = new(posx, posy, posz);
                     BlockEntity curBE = Api.World.BlockAccessor.GetBlockEntity(curPos);
-                    if (block.Id == 0 || (roomness > 0 && !room.Contains(new BlockPos(posx, posy, posz)))) return;
+                    if (block.Id == 0 || (roomness != 0 && !room.Contains(new BlockPos(posx, posy, posz)))) return;
 
                     if (_roomness != 0 && FGCServerConfig.Current.enabledInRoomOnly && !room.Contains(new BlockPos(posx, posy, posz))) return;
 
@@ -1159,7 +1164,7 @@ namespace FromGoldenCombs.BlockEntities
                 if (bottomStack._isActiveHive)
                 {
                     sb.AppendLine();
-                    if (curTemp < minTemp)
+                    if (curTemp + (roomness > 0 ? 5 : 0) < minTemp )
                     {
                         if (bottomStack.threeDayTemp < minTemp)
                         {
@@ -1172,7 +1177,7 @@ namespace FromGoldenCombs.BlockEntities
                             sb.AppendLine(Lang.Get("fromgoldencombs:beeswaitfordayswarmthtofly"));
                         }
                     }
-                    else if (curTemp > maxTemp)
+                    else if (curTemp + (roomness > 0 ? 5 : 0) > maxTemp)
                     {
                         sb.AppendLine(Lang.Get("fromgoldencombs:toohot"));
                         sb.AppendLine(Lang.Get("fromgoldencombs:toohot2"));
@@ -1221,7 +1226,7 @@ namespace FromGoldenCombs.BlockEntities
 
                 if (bottomStack._isActiveHive && bottomStack.linedFrames <= 0)
                 {
-                    if (bottomStack.harvestableFrames == bottomStack.totalFrames)
+                    if ((bottomStack.harvestableFrames == bottomStack.totalFrames) && bottomStack.totalFrames != 0)
                     {
                         sb.AppendLine();
                         sb.AppendLine(Lang.Get("fromgoldencombs:allframesfilled"));
