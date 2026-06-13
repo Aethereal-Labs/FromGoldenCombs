@@ -30,7 +30,6 @@ namespace FromGoldenCombs.BlockEntities
         private RoomRegistry roomreg;
         int _roomness;
         public int roomness { get => _roomness; }
-        int roomness;
         public static SimpleParticleProperties Bees;
         int scanQuantityNearbyFlowers;
         int scanQuantityNearbyHives;
@@ -966,12 +965,18 @@ namespace FromGoldenCombs.BlockEntities
             {
 
                 Room room = roomreg?.GetRoomForPosition(Pos);
-                roomness = CalculateRoomness(room);
+                _roomness = CalculateRoomness(room);
+                double effectiveTemp = conds.Temperature + (_roomness > 0 ? 5 : 0);
 
                 double distance = Math.Abs(effectiveTemp - optimalTemp);
                 double range = Math.Max(maxTemp - optimalTemp, optimalTemp - minTemp);
 
                 float beeParticleModifier = 1f - (float)(distance / range);
+                beeParticleModifier = GameMath.Clamp(beeParticleModifier, 0f, 1f);
+                _activityLevel = beeParticleModifier;
+
+                _roomness = (room != null && room.SkylightCount > room.NonSkylightCount && room.ExitCount == 0) ? 1 : 0;
+
                 beeParticleModifier = GameMath.Clamp(beeParticleModifier, 0f, 1f);
                 _activityLevel = beeParticleModifier;
                 if (bottomStack._activityLevel <= 0) return;
@@ -1202,6 +1207,7 @@ namespace FromGoldenCombs.BlockEntities
                     {
                         sb.AppendLine(Lang.Get("fromgoldencombs:findflowers"));
                     }
+
                     if (this._roomness > 0)
                     {
                         sb.AppendLine(Lang.Get("greenhousetempbonus", Array.Empty<object>()));
