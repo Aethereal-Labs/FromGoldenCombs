@@ -33,9 +33,9 @@
   },
   "variantgroups": [
 		{ "code": "color", "states": [ "ashforest", "chthonic", "copper", 
-																	 "earthen", "rain", "cowrie", "rime", "oxblood", "loam", "undergrowth", 
-																	 "beehive", "harvest", "honeydew", "rutile", "seasalt", "springflowers", "volcanic", "cloisonne", "cornflower", "talik",
-																	 "caveaurora", "collonade", "rattlesnake", "waves", "wintersea" ]},
+																	 "earthen", "rain", "cowrie", "rime", "oxblood", "loam", "undergrowth", "beehive", 
+																	  "harvest", "honeydew", "rutile", "seasalt", "springflowers", "volcanic", "cloisonne", 
+																	 "cornflower", "talik", "caveaurora", "collonade", "rattlesnake", "waves", "wintersea" ]},
 		{ "code": "type", "states": [ "fired", "harvestable"] }
 	],
   "shapebytype": {

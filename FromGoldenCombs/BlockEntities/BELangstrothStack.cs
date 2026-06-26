@@ -996,40 +996,32 @@ namespace FromGoldenCombs.BlockEntities
                 {
                     BlockPos curPos = new(posx, posy, posz);
                     BlockEntity curBE = Api.World.BlockAccessor.GetBlockEntity(curPos);
-                    if (block.Id == 0 || (roomness != 0 && !room.Contains(new BlockPos(posx, posy, posz)))) return;
-
-                    if (_roomness != 0 && FGCServerConfig.Current.enabledInRoomOnly && !room.Contains(new BlockPos(posx, posy, posz))) return;
+                    if (block.Id == 0 || (roomness != 0 && !room.Contains(curPos)) && FGCServerConfig.Current.enabledInRoomOnly) return;
 
                     if (block.Attributes != null && block.Attributes.IsTrue("beeFeed"))
                     {
-                        scanQuantityNearbyFlowers++;
-                    
-                        if (block.FirstCodePart() == "flower")
+                        if (varietalCount.ContainsKey(block.Code))
                         {
-                            if (varietalCount == null) varietalCount = new();
-                                string code = block.Code.ToString();
-                                    if (varietalCount.ContainsKey(code))
-                                    {
-                                        varietalCount[code] = varietalCount[code] + 1;
-                                    }
-                                    else
-                                    {
-                                        varietalCount.Add(code, 1);
-                                    }
-                                }
+                            varietalCount[block.Code] += 1;
+                        } else
+                        {
+                            varietalCount.TryAdd(block.Code, 1);
                         }
-                    else if (block.Code.FirstCodePart() == "langstrothstack" && curBE is BELangstrothStack langstroth)
+                        scanQuantityNearbyFlowers++;
+                    }
+                    else if (block.Code.FirstCodePart() == "langstrothstack" && curBE is BELangstrothStack langstroth && langstroth.GetBottomStack().isHiveActive())
                     {
-                        if (bottomStack.Pos == curPos
+                        if (langstroth.GetBottomStack().Pos == curPos
                         && langstroth.isHiveActive())
                             scanQuantityNearbyHives++;
                     }
-                    else if (block.Code.FirstCodePart() == "ceramicbroodpot" && curBE is BECeramicBroodPot ceramic)
+                    else if (block.Code.FirstCodePart() == "ceramicbroodpot" && curBE is BECeramicBroodPot ceramic && ceramic.isActiveHive)
                     {
-                        if (block.Code.FirstCodePart() == "skep" && block.Code.SecondCodePart() == "populated")
-                        {
-                            scanQuantityNearbyHives++;
-                        }
+                        scanQuantityNearbyHives++;
+                    }
+                    if (block.Code.FirstCodePart() == "skep" && block.Code.SecondCodePart() == "populated")
+                    {
+                        scanQuantityNearbyHives++;
                     }
                     else if (block.Code.FirstCodePart() == "wildhive")
                     {
@@ -1040,9 +1032,12 @@ namespace FromGoldenCombs.BlockEntities
                 System.Diagnostics.Debug.WriteLine("Scan Iteration is " + scanIteration);
                 if (scanIteration == 4)
                 {
-                    string highestkey = varietalCount.OrderByDescending(entry => entry.Value).First().Key;
-                    topVarietal = highestkey;
-                    varietalCount.Clear();
+                    if (varietalCount.Count() > 0)
+                    {
+                        string highestkey = varietalCount.OrderByDescending(entry => entry.Value).First().Key;
+                        topVarietal = highestkey.ToString();
+                        varietalCount.Clear();
+                    }
                     scanIteration = 0;
                     OnScanComplete();
                 }
@@ -1226,7 +1221,7 @@ namespace FromGoldenCombs.BlockEntities
                         sb.AppendLine("Current Time: " + (int)Api.World.Calendar.TotalHours);
                         sb.AppendLine("coolDownUntilTotalHours: " + (int)cooldownUntilTotalHours);
                         sb.AppendLine("ScanInteration " + scanIteration);
-                        if(topVarietal != null) sb.AppendLine("Top Varietal: " + new ItemStack(forPlayer.Entity.Api.World.GetBlock(topVarietal)).GetName());
+                        sb.AppendLine("Top Varietal: " + (string.IsNullOrEmpty(topVarietal) ? "" : new ItemStack(forPlayer.Entity.Api.World.GetBlock(topVarietal)).GetName()));
                     }
                 }
 

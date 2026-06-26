@@ -71,11 +71,6 @@
     <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ALCMyCore\ALCMyCore\ALCMyCore.csproj">
-      <Private>False</Private>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Reference Include="0Harmony">
       <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Lib\0Harmony.dll</HintPath>
       <Private>False</Private>

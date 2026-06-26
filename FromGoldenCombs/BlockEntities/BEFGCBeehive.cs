@@ -633,12 +633,11 @@ namespace FromGoldenCombs.BlockEntities
                 sb.AppendLine("\n" + Lang.Get("greenhousetempbonus", Array.Empty<object>()));
                 
             }
-            if (FGCServerConfig.Current.showExtraBeehiveInfo && (forPlayer.Entity.Controls.ShiftKey || FGCClientConfig.Current.alwaysShowExtraBeehiveInfo == true))
+            if (Api is ICoreClientAPI capi && capi.Settings.Bool.Get("extendedDebugInfo", false))
             {
-                sb.AppendLine(tempReport);
-                sb.AppendLine(Lang.Get("fromgoldencombs:croprange") + " " + cropChargeRange);
-                sb.AppendLine(Lang.Get("fromgoldencombs:cropcharges") + " " + cropcharges);
-                sb.AppendLine(Lang.Get("fromgoldencombs:cropboostpercentage") + " " + Math.Round(FGCServerConfig.Current.skepCropBoostPercentage * 100) + "%");
+                sb.AppendLine("Current Time: " + (int)Api.World.Calendar.TotalHours);
+                sb.AppendLine("coolDownUntilTotalHours: " + (int)cooldownUntilTotalHours);
+                sb.AppendLine("ScanInteration " + scanIteration);
             }
         }
 

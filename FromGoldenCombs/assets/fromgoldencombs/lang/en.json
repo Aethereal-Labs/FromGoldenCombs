@@ -60,6 +60,7 @@
   "blockhelp-ceramichive-empty-withtop-2": "To pick up.",
   "blockhelp-ceramichive-populated-withtop": "Right click removes honey pot, wax ring indicates harvestable.",
   "blockhelp-ceramichive-*-empty-notop": "Use populated skep to start colony",
+  "blockhelp-ceramichive-empty-notop": "Use populated skep to start colony",
   "blockhelp-ceramichive-*-populated-notop": "Place hive top.",
   "blockhelp-ceramichive-*-empty-withtop": "Use populated skep.",
   "blockhelp-ceramichive-*-empty-withtop-2": "To pick up.",

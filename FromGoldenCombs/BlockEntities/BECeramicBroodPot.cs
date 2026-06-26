@@ -127,9 +127,11 @@ namespace FromGoldenCombs.BlockEntities
 
         private void UpdateClimateValues(ICoreAPI api)
         {
+            roomreg = Api.ModLoader.GetModSystem<RoomRegistry>();
+            _roomness = CalculateRoomness(roomreg.GetRoomForPosition(Pos));
             if (api is ICoreServerAPI)
             {
-                _roomness = CalculateRoomness(roomreg.GetRoomForPosition(Pos));
+              
                 worldTime = api.World.Calendar.TotalHours;
                 harvestBase = (float)((FGCServerConfig.Current.LangstrothDaysToHarvestIn30DayMonths * ((float)Api.World.Calendar.DaysPerMonth / 30f)) * Api.World.Calendar.HoursPerDay);
                 todayNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays)) + 0.66f).Temperature;
@@ -472,6 +474,7 @@ namespace FromGoldenCombs.BlockEntities
             UpdateClimateValues(Api);
             double worldTime = Api.World.Calendar.TotalHours;
             Room room = roomreg?.GetRoomForPosition(Pos);
+            conds = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.NowValues);
             if (_roomness > 0 && !FGCServerConfig.Current.enabledGreenHouse) return;
             if (isActiveHive)
             {
@@ -503,24 +506,25 @@ namespace FromGoldenCombs.BlockEntities
                 {
                     BlockPos curPos = new(posx, posy, posz);
                     BlockEntity curBE = Api.World.BlockAccessor.GetBlockEntity(curPos);
-                    if (block.Id == 0 || (roomness != 0 && !room.Contains(new BlockPos(posx, posy, posz)))) return;
+                    if (block.Id == 0 || (roomness != 0 && !room.Contains(curPos)) && FGCServerConfig.Current.enabledInRoomOnly) return;
 
                     if (block.Attributes != null && block.Attributes.IsTrue("beeFeed"))
                     {
                         scanQuantityNearbyFlowers++;
                     }
-                    else if (block.Code.FirstCodePart() == "langstrothstack" && curBE is BELangstrothStack langstroth)
+                    else if (block.Code.FirstCodePart() == "langstrothstack" && curBE is BELangstrothStack langstroth && langstroth.GetBottomStack().isHiveActive())
                     {
                         if (langstroth.GetBottomStack().Pos == curPos
                         && langstroth.isHiveActive())
                             scanQuantityNearbyHives++;
                     } 
-                    else if(block.Code.FirstCodePart() == "ceramicbroodpot" && curBE is BECeramicBroodPot ceramic)
+                    else if(block.Code.FirstCodePart() == "ceramicbroodpot" && curBE is BECeramicBroodPot ceramic && ceramic.isActiveHive)
                     {
-                        if (block.Code.FirstCodePart() == "skep" && block.Code.SecondCodePart() == "populated")
-                        {
-                            scanQuantityNearbyHives++;
-                        }
+                        scanQuantityNearbyHives++;
+                    }
+                    if (block.Code.FirstCodePart() == "skep" && block.Code.SecondCodePart() == "populated")
+                    {
+                        scanQuantityNearbyHives++;
                     }
                     else if (block.Code.FirstCodePart() == "wildhive")
                     {
@@ -528,7 +532,6 @@ namespace FromGoldenCombs.BlockEntities
                     }
                 });
                 scanIteration++;
-                System.Diagnostics.Debug.WriteLine("Scan Iteration is " + scanIteration);
                 if (scanIteration == 4)
                 {
                     scanIteration = 0;
@@ -709,7 +712,6 @@ namespace FromGoldenCombs.BlockEntities
 
             tree.SetDouble("cooldownUntilTotalHours", cooldownUntilTotalHours);
             tree.SetDouble("harvestableAtTotalHours", harvestableAtTotalHours);
-            tree.SetInt("hiveHealth", (int)_hivePopSize);
             tree.SetDouble("cropChargeAtTotalHours", cropChargeAtTotalHours);
             tree.SetInt("cropCharges", cropcharges);
             tree.SetInt("maxCropCharges", maxCropCharges);
@@ -731,10 +733,8 @@ namespace FromGoldenCombs.BlockEntities
 
             quantityNearbyFlowers = tree.GetInt("quantityNearbyFlowers");
             quantityNearbyHives = tree.GetInt("quantityNearbyHives");
-
             scanQuantityNearbyFlowers = tree.GetInt("scanQuantityNearbyFlowers");
             scanQuantityNearbyHives = tree.GetInt("scanQuantityNearbyHives");
-
             isActiveHive = tree.GetBool("isactivehive");
              
             
@@ -747,11 +747,9 @@ namespace FromGoldenCombs.BlockEntities
             maxCropCharges = tree.GetInt("maxCropCharges");
             cropcharges = tree.GetInt("cropcharges");
 
-            scanQuantityNearbyFlowers = tree.GetInt("scanQuantityNearbyFlowers");
-            scanQuantityNearbyHives = tree.GetInt("scanQuantityNearbyHives");
             cooldownUntilTotalHours = tree.GetDouble("cooldownUntilTotalHours");
             harvestableAtTotalHours = tree.GetDouble("harvestableAtTotalHours");
-            _hivePopSize = (EnumHivePopSize)tree.GetInt("hiveHealth");
+            
             cropChargeAtTotalHours = tree.GetDouble("cropChargeAtTotalHours");
             cropcharges = tree.GetInt("cropCharges");
             maxCropCharges = tree.GetInt("maxCropCharges");
@@ -774,12 +772,7 @@ namespace FromGoldenCombs.BlockEntities
             float minTemp = FGCServerConfig.Current.CeramicHiveMinTemp;
             float maxTemp = FGCServerConfig.Current.CeramicHiveMaxTemp == 0?37f:FGCServerConfig.Current.CeramicHiveMaxTemp;
             float temp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.NowValues).Temperature + (_roomness > 0 ? 5 : 0);
-            if (Api is ICoreClientAPI capi && capi.Settings.Bool.Get("extendedDebugInfo", false))
-            {
-                sb.AppendLine("Current Time: " + (int)Api.World.Calendar.TotalHours);
-                sb.AppendLine("coolDownUntilTotalHours: " + (int)cooldownUntilTotalHours);
-                sb.AppendLine("ScanInteration " + scanIteration);
-            }
+            
             
             if (_roomness != 0 && !FGCServerConfig.Current.enabledGreenHouse)
             {
@@ -862,7 +855,13 @@ namespace FromGoldenCombs.BlockEntities
                         sb.AppendLine(Lang.Get("fromgoldencombs:cropcharges") + " " + cropcharges);
                         sb.AppendLine(Lang.Get("fromgoldencombs:cropboostpercentage") + " " + Math.Round(FGCServerConfig.Current.ceramicCropBoostPercentage*100) + "%");
                     }
-                   
+                    if (Api is ICoreClientAPI capi && capi.Settings.Bool.Get("extendedDebugInfo", false))
+                    {
+                        sb.AppendLine("Current Time: " + (int)Api.World.Calendar.TotalHours);
+                        sb.AppendLine("coolDownUntilTotalHours: " + (int)cooldownUntilTotalHours);
+                        sb.AppendLine("ScanInteration " + scanIteration);
+                    }
+
                 }
             }
 
