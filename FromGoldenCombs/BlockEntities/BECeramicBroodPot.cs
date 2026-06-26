@@ -433,12 +433,6 @@ namespace FromGoldenCombs.BlockEntities
             if (isActiveHive)
             {
                 Random rand = Api.World.Rand;
-                float dayLightStrength = Api.World.Calendar.GetDayLightStrength(Pos.X, Pos.Z);
-                if (rand.NextDouble() > 2 * dayLightStrength - 0.5) return;
-
-
-
-                Bees.MinQuantity = _activityLevel;
 
                 // Leave hive
                 if (rand.NextDouble() > 0.5)
@@ -723,6 +717,7 @@ namespace FromGoldenCombs.BlockEntities
             tree.SetFloat("minTemp", minTemp);
             tree.SetFloat("maxTemp", maxTemp);
             tree.SetFloat("optimalTemp", optimalTemp);
+            tree.SetFloat("activitylevel", _activityLevel);
         }
 
         public override void FromTreeAttributes(ITreeAttribute tree, IWorldAccessor worldForResolving)
@@ -761,7 +756,7 @@ namespace FromGoldenCombs.BlockEntities
             minTemp = tree.GetFloat("minTemp");
             maxTemp = tree.GetFloat("maxTemp");
             optimalTemp = tree.GetFloat("optimalTemp");
-
+            _activityLevel = tree.GetFloat("activitylevel");
             updateMeshes();
 
         }

@@ -820,18 +820,11 @@ namespace FromGoldenCombs.BlockEntities
         private void SpawnBeeParticles(float dt)
         {
             Room room = roomreg?.GetRoomForPosition(Pos);
-            if (_isActiveHive && Pos == bottomStack.Pos)
+            Random rand = Api.World.Rand;
+            if (Pos == bottomStack.Pos && _isActiveHive)
             {
-                Random rand = Api.World.Rand;
-                float dayLightStrength = Api.World.Calendar.GetDayLightStrength(Pos.X, Pos.Z);
-                if (rand.NextDouble() > 2 * dayLightStrength - 0.5) return;
-
-                
-
-                Bees.MinQuantity = _activityLevel;
-
                 // Leave hive
-                if (rand.NextDouble() > 0.5)
+                if (!(Api.World.Rand.NextDouble() > 0.5))
                 {
                     startPos.Set(Pos.X + 0.5f, Pos.Y + 0.5f, Pos.Z + 0.5f);
                     minVelo.Set((float)rand.NextDouble() * 3 - 1.5f, (float)rand.NextDouble() * 1 - 0.5f, (float)rand.NextDouble() * 3 - 1.5f);
@@ -966,19 +959,15 @@ namespace FromGoldenCombs.BlockEntities
 
                 Room room = roomreg?.GetRoomForPosition(Pos);
                 _roomness = CalculateRoomness(room);
-                double effectiveTemp = conds.Temperature + (_roomness > 0 ? 5 : 0);
+                //double effectiveTemp = conds.Temperature + (_roomness > 0 ? 5 : 0);
 
-                double distance = Math.Abs(effectiveTemp - optimalTemp);
-                double range = Math.Max(maxTemp - optimalTemp, optimalTemp - minTemp);
+                //double distance = Math.Abs(effectiveTemp - optimalTemp);
+                //double range = Math.Max(maxTemp - optimalTemp, optimalTemp - minTemp);
 
-                float beeParticleModifier = 1f - (float)(distance / range);
-                beeParticleModifier = GameMath.Clamp(beeParticleModifier, 0f, 1f);
-                _activityLevel = beeParticleModifier;
+                //float beeParticleModifier = 1f - (float)(distance / range);
+                //beeParticleModifier = GameMath.Clamp(beeParticleModifier, 0f, 1f);
+                //_activityLevel = beeParticleModifier;
 
-                _roomness = (room != null && room.SkylightCount > room.NonSkylightCount && room.ExitCount == 0) ? 1 : 0;
-
-                beeParticleModifier = GameMath.Clamp(beeParticleModifier, 0f, 1f);
-                _activityLevel = beeParticleModifier;
                 if (bottomStack._activityLevel <= 0) return;
                 if (Api.Side == EnumAppSide.Client) return;
                 if (Api.World.Calendar.TotalHours < cooldownUntilTotalHours) return;
@@ -1094,6 +1083,7 @@ namespace FromGoldenCombs.BlockEntities
             }
             tree["varietalDict"] = varietaltree;
             tree.SetString("topvarietal", topVarietal);
+            tree.SetFloat("activityLevel", _activityLevel);
         }
 
         public override void FromTreeAttributes(ITreeAttribute tree, IWorldAccessor worldForResolving)
@@ -1144,6 +1134,7 @@ namespace FromGoldenCombs.BlockEntities
                 varietalCount = varietalDict;
             }
             topVarietal = tree.GetString("topvarietal");
+            _activityLevel = tree.GetFloat("activityLevel");
             updateMeshes();
         }
         public override void GetBlockInfo(IPlayer forPlayer, StringBuilder sb)
