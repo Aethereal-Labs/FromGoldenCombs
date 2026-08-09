@@ -75,18 +75,12 @@ namespace FromGoldenCombs.BlockEntities
         public BELangstrothStack()
         {
             inv = new InventoryGeneric(3, "superslot-0", null, null);
+            Bees = new SimpleParticleProperties(1f, 1f, ColorUtil.ToRgba(255, 215, 156, 65), new Vec3d(), new Vec3d(), new Vec3f(0f, 0f, 0f), new Vec3f(0f, 0f, 0f), 1f, 0f, 0.5f, 0.5f, EnumParticleModel.Cube);
         }
 
         public bool isHiveActive()
         {
             return _isActiveHive;
-        }
-
-
-
-        static BELangstrothStack()
-        { 
-        Bees = new SimpleParticleProperties(1f, 1f, ColorUtil.ToRgba(255, 215, 156, 65), new Vec3d(), new Vec3d(), new Vec3f(0f, 0f, 0f), new Vec3f(0f, 0f, 0f), 1f, 0f, 0.5f, 0.5f, EnumParticleModel.Cube);
         }
 
         public override void Initialize(ICoreAPI api)
@@ -797,12 +791,13 @@ namespace FromGoldenCombs.BlockEntities
             int downCount = 1;
 
             BELangstrothStack bottomStack = this;
+                if (Api != null) { 
+                while (Api.World.BlockAccessor.GetBlockEntity(Pos.DownCopy(downCount)) is BELangstrothStack stack)
+                {
+                    bottomStack = stack;
+                    downCount++;
 
-            while (Api.World.BlockAccessor.GetBlockEntity(Pos.DownCopy(downCount)) is BELangstrothStack stack)
-            {
-                bottomStack = stack;
-                downCount++;
-
+                }
             }
             return bottomStack;
         }
@@ -819,6 +814,7 @@ namespace FromGoldenCombs.BlockEntities
 
         private void SpawnBeeParticles(float dt)
         {
+            if (_roomness > 0 && !FGCServerConfig.Current.enabledGreenHouse) return;
             Room room = roomreg?.GetRoomForPosition(Pos);
             Random rand = Api.World.Rand;
             if (Pos == bottomStack.Pos && _isActiveHive)
@@ -861,6 +857,7 @@ namespace FromGoldenCombs.BlockEntities
 
         private void TestHarvestable(float dt)
         {
+            if (_roomness > 0 && !FGCServerConfig.Current.enabledGreenHouse) return;
             if (this != bottomStack) { return; }
             bottomStack.UpdateClimateValues(Api);
             bottomStack = GetBottomStack();
@@ -959,6 +956,7 @@ namespace FromGoldenCombs.BlockEntities
 
                 Room room = roomreg?.GetRoomForPosition(Pos);
                 _roomness = CalculateRoomness(room);
+                if (_roomness > 0 && !FGCServerConfig.Current.enabledGreenHouse) return;
                 //double effectiveTemp = conds.Temperature + (_roomness > 0 ? 5 : 0);
 
                 //double distance = Math.Abs(effectiveTemp - optimalTemp);

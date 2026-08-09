@@ -180,7 +180,7 @@ namespace FromGoldenCombs.BlockEntities
                     return true;
                 }
             }
-            else if (slot.Itemstack.Collectible.WildCardMatch(new AssetLocation("game", "skep-*-populated-*")) && !isActiveHive)
+            else if (slot.Itemstack.Collectible.Code.FirstCodePart() == "skep" && slot.Itemstack.Collectible.Variant["type"] == "populated" && !isActiveHive)
             {
                 byPlayer.InventoryManager.ActiveHotbarSlot.TakeOutWhole();
                 testHarvestableListener = RegisterGameTickListener(TestHarvestable, 5000);
@@ -190,7 +190,7 @@ namespace FromGoldenCombs.BlockEntities
                 updateMeshes();
                 return true;
             }
-            else if (slot.Itemstack.Collectible.WildCardMatch(new AssetLocation("game", "skep-*-empty-*")) && isActiveHive)
+            else if (slot.Itemstack.Collectible.Code.FirstCodePart() == "skep" && slot.Itemstack.Collectible.Variant["type"] == "empty" && !isActiveHive)
             {
                 ItemStack newStack = new(Api.World.BlockAccessor.GetBlock(slot.Itemstack.Collectible.CodeWithVariant("type","populated")));
                 

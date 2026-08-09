@@ -2,6 +2,7 @@
 - Ceramic Hives failed to communicate roomness properly. (Two conflicting entries in Tree Attributes were the culprit)
 - Updated Ceramic Hive Texture UVs for Artisan Only Versions, they look much  nicer now.
 - Removed EarthyOrange variant from raw ceramic hive recipe.
+- Tweaked bee particle spawning
 
 1.22-v2.0.7
 - Bees buzz in hives again (Sorry this took so long)

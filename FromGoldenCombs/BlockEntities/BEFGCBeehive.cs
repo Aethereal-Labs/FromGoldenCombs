@@ -263,9 +263,9 @@ namespace FromGoldenCombs.BlockEntities
 
         private void SpawnBeeParticles(float dt)
         {
+            if (_roomness > 0 && !FGCServerConfig.Current.enabledGreenHouse) return;
             float dayLightStrength = Api.World.Calendar.GetDayLightStrength(Pos.X, Pos.Z);
             if (Api.World.Rand.NextDouble() > 2 * dayLightStrength - 0.5) return;
-            if (_roomness > 0 && !FGCServerConfig.Current.enabledGreenHouse) return;
             Random rand = Api.World.Rand;
             
             Bees.MinQuantity = actvitiyLevel;
