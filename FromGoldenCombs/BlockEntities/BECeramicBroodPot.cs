@@ -137,7 +137,7 @@ namespace FromGoldenCombs.BlockEntities
                 todayNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays)) + 0.66f).Temperature;
                 yesterdayNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 1)) + 0.66f).Temperature;
                 twoDayAgoNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 2)) + 0.66f).Temperature;
-                threeDayTemp = (todayNoonTemp * 2 + yesterdayNoonTemp + twoDayAgoNoonTemp) / 4 + (_roomness > 0 ? 5 : 0);
+                threeDayTemp = (todayNoonTemp * 2 + yesterdayNoonTemp + twoDayAgoNoonTemp) / 4 + GetGreenhouseBonus();
                 conds = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.NowValues);
                 double actualDaysTillHarvest = (harvestableAtTotalHours - worldTime) / 24d;
                 daysTillHarvest = actualDaysTillHarvest < 1d ? 0 : (int)(actualDaysTillHarvest);
@@ -354,9 +354,9 @@ namespace FromGoldenCombs.BlockEntities
             yesterdayNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 1)) + 0.66f).Temperature;
             twoDayAgoNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 2)) + 0.66f).Temperature;
             if (conds == null) return;
-            threeDayTemp = (todayNoonTemp * 2 + yesterdayNoonTemp + twoDayAgoNoonTemp) / 4 + (_roomness > 0 ? 5 : 0);
+            threeDayTemp = (todayNoonTemp * 2 + yesterdayNoonTemp + twoDayAgoNoonTemp) / 4 + GetGreenhouseBonus();
             optimalTemp = (maxTemp + minTemp) / 2;
-            distance = Math.Abs(conds.Temperature + (_roomness > 0 ? 5 : 0) - optimalTemp);
+            distance = Math.Abs(conds.Temperature + GetGreenhouseBonus() - optimalTemp);
             range = Math.Max(maxTemp - optimalTemp, optimalTemp - minTemp);
             beeParticleModifier = 1f - (float)(distance / range);
             _activityLevel = GameMath.Clamp(beeParticleModifier, 0f, 1f);
@@ -468,11 +468,12 @@ namespace FromGoldenCombs.BlockEntities
             UpdateClimateValues(Api);
             double worldTime = Api.World.Calendar.TotalHours;
             Room room = roomreg?.GetRoomForPosition(Pos);
+            _roomness = CalculateRoomness(room);
             conds = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.NowValues);
             if (_roomness > 0 && !FGCServerConfig.Current.enabledGreenHouse) return;
             if (isActiveHive)
             {
-                double effectiveTemp = conds.Temperature + (_roomness > 0 ? 5 : 0);
+                double effectiveTemp = conds.Temperature + GetGreenhouseBonus();
 
                 double distance = Math.Abs(effectiveTemp - optimalTemp);
                 double range = Math.Max(maxTemp - optimalTemp, optimalTemp - minTemp);
@@ -481,8 +482,6 @@ namespace FromGoldenCombs.BlockEntities
                 beeParticleModifier = GameMath.Clamp(beeParticleModifier, 0f, 1f);
                 _activityLevel = beeParticleModifier;
 
-                _roomness = (room != null && room.SkylightCount > room.NonSkylightCount && room.ExitCount == 0) ? 1 : 0;
-                
                 if (_activityLevel <= 0) return;
                 if (Api.Side == EnumAppSide.Client) return;
                 if (Api.World.Calendar.TotalHours < cooldownUntilTotalHours) return;
@@ -540,6 +539,11 @@ namespace FromGoldenCombs.BlockEntities
             quantityNearbyFlowers = scanQuantityNearbyFlowers;
             quantityNearbyHives = scanQuantityNearbyHives;
             _hivePopSize = (EnumHivePopSize)GameMath.Clamp(quantityNearbyFlowers - FGCServerConfig.Current.minFlowersPerHive * quantityNearbyHives, 0, 2); ;
+        }
+
+        private float GetGreenhouseBonus()
+        {
+            return _roomness > 0 ? 5f : 0f;
         }
 
         public int CalculateRoomness(Room room)
@@ -766,7 +770,7 @@ namespace FromGoldenCombs.BlockEntities
             
             float minTemp = FGCServerConfig.Current.CeramicHiveMinTemp;
             float maxTemp = FGCServerConfig.Current.CeramicHiveMaxTemp == 0?37f:FGCServerConfig.Current.CeramicHiveMaxTemp;
-            float temp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.NowValues).Temperature + (_roomness > 0 ? 5 : 0);
+            float temp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.NowValues).Temperature + GetGreenhouseBonus();
             
             
             if (_roomness != 0 && !FGCServerConfig.Current.enabledGreenHouse)

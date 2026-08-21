@@ -118,12 +118,12 @@ namespace FromGoldenCombs.BlockEntities
             bottomStack.todayNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays)) + 0.66f).Temperature;
             bottomStack.yesterdayNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 1)) + 0.66f).Temperature;
             bottomStack.twoDayAgoNoonTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, (Double)((int)(Api.World.Calendar.TotalDays - 2)) + 0.66f).Temperature;
-            bottomStack.threeDayTemp = (todayNoonTemp * 2 + yesterdayNoonTemp + twoDayAgoNoonTemp) / 4 + (_roomness > 0 ? 5 : 0);
+            bottomStack.threeDayTemp = (todayNoonTemp * 2 + yesterdayNoonTemp + twoDayAgoNoonTemp) / 4 + GetGreenhouseBonus();
             conds = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.NowValues);
             double actualDaysTillHarvest = (bottomStack.harvestableAtTotalHours - worldTime) / 24d;
             daysTillHarvest = actualDaysTillHarvest < 1d ? 0 : (int)(actualDaysTillHarvest);
             optimalTemp = (maxTemp + minTemp) / 2;
-            curTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.NowValues).Temperature + (this._roomness > 0 ? 5 : 0);
+            curTemp = Api.World.BlockAccessor.GetClimateAt(Pos, EnumGetClimateMode.NowValues).Temperature + GetGreenhouseBonus();
         }
 
         public void OnPollinationNearby(string eventName, BlockPos cropPos, ref EnumHandling handling, IAttribute data)
@@ -718,6 +718,11 @@ namespace FromGoldenCombs.BlockEntities
             return false;
         }
 
+        private float GetGreenhouseBonus()
+        {
+            return _roomness > 0 ? 5f : 0f;
+        }
+
         private int CalculateRoomness(Room room)
         {
             return (room != null && room.SkylightCount > room.NonSkylightCount && room.ExitCount == 0) ? 1 : 0;
@@ -869,7 +874,7 @@ namespace FromGoldenCombs.BlockEntities
                 
                 if (conds == null) return;
 
-                double distance = Math.Abs((conds.Temperature + (_roomness > 0 ? 5 : 0)) - optimalTemp); //The roomness is added to account for the presence of a greenhouse
+                double distance = Math.Abs((conds.Temperature + GetGreenhouseBonus()) - optimalTemp); //The roomness is added to account for the presence of a greenhouse
                 double range = Math.Max(maxTemp - optimalTemp, optimalTemp - minTemp);
                 float beeParticleModifier = 1f - (float)(distance / range);
                 _activityLevel = GameMath.Clamp(beeParticleModifier, 0f, 1f);
@@ -957,7 +962,7 @@ namespace FromGoldenCombs.BlockEntities
                 Room room = roomreg?.GetRoomForPosition(Pos);
                 _roomness = CalculateRoomness(room);
                 if (_roomness > 0 && !FGCServerConfig.Current.enabledGreenHouse) return;
-                //double effectiveTemp = conds.Temperature + (_roomness > 0 ? 5 : 0);
+                //double effectiveTemp = conds.Temperature + GetGreenhouseBonus();
 
                 //double distance = Math.Abs(effectiveTemp - optimalTemp);
                 //double range = Math.Max(maxTemp - optimalTemp, optimalTemp - minTemp);
@@ -1153,7 +1158,7 @@ namespace FromGoldenCombs.BlockEntities
                 if (bottomStack._isActiveHive)
                 {
                     sb.AppendLine();
-                    if (curTemp + (roomness > 0 ? 5 : 0) < minTemp )
+                    if (curTemp + GetGreenhouseBonus() < minTemp )
                     {
                         if (bottomStack.threeDayTemp < minTemp)
                         {
@@ -1166,7 +1171,7 @@ namespace FromGoldenCombs.BlockEntities
                             sb.AppendLine(Lang.Get("fromgoldencombs:beeswaitfordayswarmthtofly"));
                         }
                     }
-                    else if (curTemp + (roomness > 0 ? 5 : 0) > maxTemp)
+                    else if (curTemp + GetGreenhouseBonus() > maxTemp)
                     {
                         sb.AppendLine(Lang.Get("fromgoldencombs:toohot"));
                         sb.AppendLine(Lang.Get("fromgoldencombs:toohot2"));
