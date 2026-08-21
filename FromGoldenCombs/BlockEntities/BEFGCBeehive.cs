@@ -628,7 +628,7 @@ namespace FromGoldenCombs.BlockEntities
                 }
             }
             sb.AppendLine(hiveState);
-            if (this._roomness > 0f)
+            if (this._roomness > 0)
             {
                 sb.AppendLine("\n" + Lang.Get("greenhousetempbonus", Array.Empty<object>()));
                 

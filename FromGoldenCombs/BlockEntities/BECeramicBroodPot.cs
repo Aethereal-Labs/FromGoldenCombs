@@ -843,7 +843,7 @@ namespace FromGoldenCombs.BlockEntities
                     {
                         sb.AppendLine(Lang.Get("fromgoldencombs:findflowers"));
                     }
-                    if (this._roomness > 0f)
+                    if (this._roomness > 0)
                     {
                         sb.AppendLine(Lang.Get("greenhousetempbonus", []));
                         //The above [] was used to replace Array.Empty<object>()
