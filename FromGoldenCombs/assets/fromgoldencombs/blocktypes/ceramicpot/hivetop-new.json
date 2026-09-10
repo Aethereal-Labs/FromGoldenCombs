@@ -96,7 +96,7 @@
   },
   lightAbsorption: 0,
   "combustiblePropsByType": {
-    "*-red": {
+    "*-red-*": {
       "meltingPoint": 600,
       "meltingDuration": 45,
       "smeltedRatio": 1,

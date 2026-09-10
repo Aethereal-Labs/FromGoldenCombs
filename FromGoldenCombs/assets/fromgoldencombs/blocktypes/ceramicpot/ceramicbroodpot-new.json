@@ -162,7 +162,7 @@
 		"ambient": "game:creature/beehive"
 	},
 	"combustiblePropsByType": {
-    "*-red": {
+    "*-red-*": {
       "meltingPoint": 650,
       "meltingDuration": 45,
       "smeltedRatio": 1,
