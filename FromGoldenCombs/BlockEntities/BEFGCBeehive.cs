@@ -738,6 +738,10 @@ namespace FromGoldenCombs.BlockEntities
             if (api?.Side == EnumAppSide.Server)
             {
                 api.ModLoader.GetModSystem<POIRegistry>().RemovePOI(this);
+                if (!isWildHive)
+                {
+                    api.ModLoader.GetModSystem<FromGoldenCombs>().OnPollination -= OnPollinationNearby;
+                }
             }
         }
     }

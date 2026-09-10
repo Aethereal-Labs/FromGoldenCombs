@@ -12,6 +12,7 @@ using Vintagestory.API.Datastructures;
 using Vintagestory.API.MathTools;
 using FromGoldenCombs.Blocks.ClaypotHive;
 using System.Linq;
+
 namespace FromGoldenCombs
 {
     class FromGoldenCombs : ModSystem

@@ -254,7 +254,7 @@ namespace FromGoldenCombs.BlockEntities
             UpdateClimateValues(Api);
             if (Api.Side == EnumAppSide.Server)
             {
-                Api.ModLoader.GetModSystem<FromGoldenCombs>().OnPollination -= OnPollinationNearby;
+                Api.ModLoader.GetModSystem<FromGoldenCombs>().OnPollination -= bottomStack.OnPollinationNearby;
             }
             if (slot.Empty)
             {
@@ -295,9 +295,9 @@ namespace FromGoldenCombs.BlockEntities
                     bottomStack._isActiveHive = bottomStack.IsValidHive();
                     
                     //
-                    if(bottomStack._isActiveHive && !curHiveActive && Api.Side.IsServer())
+                    if (bottomStack._isActiveHive && !curHiveActive && Api.Side.IsServer())
                     {
-                            Api.ModLoader.GetModSystem<FromGoldenCombs>().OnPollination += OnPollinationNearby;
+                        Api.ModLoader.GetModSystem<FromGoldenCombs>().OnPollination += bottomStack.OnPollinationNearby;
                     }
                     bottomStack.ResetHive();
                 }
@@ -1152,9 +1152,18 @@ namespace FromGoldenCombs.BlockEntities
                         case "north": z = 1; break;
                         case "south": x = 1; break;
                     }
-                    tfMatrices[index] = new Matrixf().Translate(x, 0.3333f * index, z).RotateYDeg(this.Block.Shape.rotateY).Values;
+                    tfMatrices[index] = new Matrixf().Translate(x, 0.3333f * index, z).RotateYDeg(this.Block.Shape.rotateY).Values; 
+                }
+                return tfMatrices;
+        }
+        
+        public override void OnBlockUnloaded()
+        {
+            base.OnBlockUnloaded();
+            if (Api?.Side == EnumAppSide.Server)
+            {
+                Api.ModLoader.GetModSystem<FromGoldenCombs>().OnPollination -= OnPollinationNearby;
             }
-            return tfMatrices;
         }
 
     }
