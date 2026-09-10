@@ -1,446 +1,92 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <TargetFrameworks>net10.0</TargetFrameworks>
-	<PlatformTarget>AnyCPU</PlatformTarget>
+    <TargetFramework>net10.0</TargetFramework>
     <LangVersion>14</LangVersion>
+    <AssemblyName>FromGoldenCombs</AssemblyName>
+    <RootNamespace>FromGoldenCombs</RootNamespace>
+    <!-- Output is laid out as a mod folder: bin\<Config>\Mods\fromgoldencombs\{FromGoldenCombs.dll, modinfo.json, assets\...} -->
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    <OutputPath>bin\$(Configuration)\Mods\fromgoldencombs\</OutputPath>
+    <GenerateDependencyFile>false</GenerateDependencyFile>
+    <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+    <DebugType>portable</DebugType>
+    <ModOutputPath>$(MSBuildProjectDirectory)\bin\$(Configuration)\Mods</ModOutputPath>
   </PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-		<OutputPath>C:\Users\vinte\source\repos\FromGoldenCombs\FromGoldenCombs\bin\Debug\FromGoldenCombs</OutputPath>
-		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-		<AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
-	</PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net10.0|AnyCPU'">
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <DefineConstants>$(DefineConstants);DEBUG;TRACE</DefineConstants>
     <Optimize>false</Optimize>
   </PropertyGroup>
+
+  <!-- Game assemblies. Paths come from Directory.Build.props / Directory.Build.props.user. -->
   <ItemGroup>
-    <Compile Remove="assets\wildcrafttree\**" />
-    <Compile Remove="bin\**" />
-    <Compile Remove="obj\**" />
-    <EmbeddedResource Remove="assets\wildcrafttree\**" />
-    <EmbeddedResource Remove="bin\**" />
-    <EmbeddedResource Remove="obj\**" />
-    <None Remove="assets\wildcrafttree\**" />
-    <None Remove="bin\**" />
-    <None Remove="obj\**" />
+    <Reference Include="VintagestoryAPI">
+      <HintPath>$(VintageStoryPath)\VintagestoryAPI.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="VintagestoryLib">
+      <HintPath>$(VintageStoryPath)\VintagestoryLib.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="VSSurvivalMod">
+      <HintPath>$(VintageStoryPath)\Mods\VSSurvivalMod.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="VSEssentials">
+      <HintPath>$(VintageStoryPath)\Mods\VSEssentials.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="0Harmony">
+      <HintPath>$(VintageStoryPath)\Lib\0Harmony.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>$(VintageStoryPath)\Lib\Newtonsoft.Json.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="protobuf-net">
+      <HintPath>$(VintageStoryPath)\Lib\protobuf-net.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
   </ItemGroup>
+
+  <!-- Mod content copied next to the DLL -->
   <ItemGroup>
-    <Compile Update="Blocks\ClaypotHive\ClayHiveTop.cs">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Blocks\ClaypotHive\RawBroodPot .cs">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="FromGoldenCombs.cs">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="Properties\Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="assets/**">
+    <Compile Remove="bin\**;obj\**;assets\**" />
+    <None Remove="bin\**;obj\**;assets\**" />
+    <None Remove="modinfo.json;modicon.png;changelog.txt" />
+    <None Remove="Properties\launchSettings.template.json" />
+
+    <Content Include="assets\**" Exclude="assets\wildcrafttree\**;assets\fromgoldencombs\blocktypes\plushyblock.json;assets\fromgoldencombs\shapes\block\sittingdrifter.json;assets\fromgoldencombs\shapes\block\tinydave.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Remove="assets\wildcrafttree\**" />
-    <Compile Remove="BlockEntities\BlockEntityClaypotHive.cs" />
-    <Compile Remove="Blocks\BlockClaypotHive.cs" />
-    <Compile Remove="Blocks\BlockHiveTop.cs" />
-    <Compile Remove="Blocks\BlockRawClaypotHive .cs" />
-    <Content Remove="assets\fromgoldencombs\blocktypes\plushyblock.json" />
-    <Content Remove="assets\fromgoldencombs\shapes\block\sittingdrifter.json" />
-    <Content Remove="assets\fromgoldencombs\shapes\block\tinydave.json" />
-    <None Remove="assets\artofgrowing\croppatch.json" />
-    <None Remove="assets\fromgoldencombs\blocktypes\plushyblock.json" />
-    <None Remove="assets\fromgoldencombs\lang\de.json" />
-    <None Remove="assets\fromgoldencombs\lang\fr.json" />
-    <None Remove="assets\fromgoldencombs\shapes\block\sittingdrifter.json" />
-    <None Remove="assets\fromgoldencombs\shapes\block\tinydave.json" />
-    <None Remove="assets\game\patches\berrybushpatch.json" />
-    <None Remove="assets\game\patches\croppatch.json" />
-    <None Remove="assets\newworldcrops\patches\croppatch.json" />
-    <None Remove="modinfo.json" />
     <Content Include="modinfo.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="assets\wildcraftfruit\patches\" />
-    <Folder Include="Properties\PublishProfiles\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="0Harmony">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Lib\0Harmony.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="AnimatedGif">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Lib\AnimatedGif.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="cairo-sharp">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Lib\cairo-sharp.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="CommandLine">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Lib\CommandLine.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="csogg">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Lib\csogg.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="csvorbis">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Lib\csvorbis.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="DnsClient">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Lib\DnsClient.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Eto.Wpf">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Lib\Eto.Wpf.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Lib\ICSharpCode.SharpZipLib.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="JsonDiffPatch">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Lib\JsonDiffPatch.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Microsoft.CodeAnalysis">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Lib\Microsoft.CodeAnalysis.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Microsoft.CodeAnalysis.CSharp">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Lib\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Microsoft.Data.Sqlite">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Lib\Microsoft.Data.Sqlite.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Microsoft.Win32.SystemEvents">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Lib\Microsoft.Win32.SystemEvents.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Microsoft.WindowsAPICodePack">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Lib\Microsoft.WindowsAPICodePack.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Microsoft.WindowsAPICodePack.Shell">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Lib\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Mono.Cecil">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Lib\Mono.Cecil.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Mono.Cecil.Mdb">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Lib\Mono.Cecil.Mdb.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Mono.Cecil.Pdb">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Lib\Mono.Cecil.Pdb.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Mono.Cecil.Rocks">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Lib\Mono.Cecil.Rocks.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Mono.Nat">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Lib\Mono.Nat.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="MonoMod.Backports">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Lib\MonoMod.Backports.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="MonoMod.Core">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Lib\MonoMod.Core.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="MonoMod.Iced">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Lib\MonoMod.Iced.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="MonoMod.ILHelpers">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Lib\MonoMod.ILHelpers.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="MonoMod.Utils">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Lib\MonoMod.Utils.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Lib\Newtonsoft.Json.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Open.Nat">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Lib\Open.Nat.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="OpenTK.Audio.OpenAL">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Lib\OpenTK.Audio.OpenAL.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="OpenTK.Compute">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Lib\OpenTK.Compute.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="OpenTK.Core">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Lib\OpenTK.Core.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="OpenTK.Graphics">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Lib\OpenTK.Graphics.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="OpenTK.Input">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Lib\OpenTK.Input.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="OpenTK.Mathematics">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Lib\OpenTK.Mathematics.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="OpenTK.Windowing.Common">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Lib\OpenTK.Windowing.Common.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="OpenTK.Windowing.Desktop">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Lib\OpenTK.Windowing.Desktop.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="OpenTK.Windowing.GraphicsLibraryFramework">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Lib\OpenTK.Windowing.GraphicsLibraryFramework.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="protobuf-net">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Lib\protobuf-net.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="SharpAvi">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Lib\SharpAvi.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="SharpAvi.SkiaSharp">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Lib\SharpAvi.SkiaSharp.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="SkiaSharp">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Lib\SkiaSharp.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="SQLitePCLRaw.batteries_v2">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Lib\SQLitePCLRaw.batteries_v2.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="SQLitePCLRaw.core">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Lib\SQLitePCLRaw.core.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="SQLitePCLRaw.provider.e_sqlite3">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Lib\SQLitePCLRaw.provider.e_sqlite3.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="System.Private.ServiceModel">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Lib\System.Private.ServiceModel.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="System.ServiceModel">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Lib\System.ServiceModel.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="System.ServiceModel.Primitives">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Lib\System.ServiceModel.Primitives.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Tavis.JsonPatch">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Lib\Tavis.JsonPatch.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Vintagestory">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Vintagestory.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="VintagestoryAPI">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\VintagestoryAPI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="VintagestoryLib">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\VintagestoryLib.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="VintagestoryServer">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\VintagestoryServer.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="VSCreativeMod">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Mods\VSCreativeMod.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="VSEssentials">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Mods\VSEssentials.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="VSSurvivalMod">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Mods\VSSurvivalMod.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Lib\Xceed.Wpf.AvalonDock.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Lib\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Lib\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Lib\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Xceed.Wpf.Toolkit">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Lib\Xceed.Wpf.Toolkit.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="xplatforminterface">
-      <HintPath>..\..\..\..\AppData\Roaming\Vintagestory\1.22\Lib\xplatforminterface.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Update="assets\artofgrowing\croppatch.json">
+    <Content Include="modicon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="assets\fromgoldencombs\blocktypes\ceramicpot\ceramicbroodpot-fancy.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="assets\fromgoldencombs\blocktypes\ceramicpot\ceramicbroodpot-new.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="assets\fromgoldencombs\blocktypes\ceramicpot\hivetop-fancy.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="assets\fromgoldencombs\blocktypes\ceramicpot\hivetop-new.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="assets\fromgoldencombs\compatibility\flora\patches\block-item\smallberrybush.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="assets\fromgoldencombs\config\handbook\FGC01-fromgoldencombsguide.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="assets\fromgoldencombs\config\handbook\FGC03-fromgoldencombs-langstrothguide.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="assets\fromgoldencombs\config\handbook\FGC02-fromgoldencombs-pollination.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="assets\fromgoldencombs\lang\cs-cz.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="assets\fromgoldencombs\lang\cs.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="assets\fromgoldencombs\lang\de.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="assets\fromgoldencombs\lang\en.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="assets\fromgoldencombs\lang\es-419.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="assets\fromgoldencombs\lang\es-es.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="assets\fromgoldencombs\lang\fr.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="assets\fromgoldencombs\lang\is.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="assets\fromgoldencombs\lang\it.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="assets\fromgoldencombs\lang\ja.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="assets\fromgoldencombs\lang\ko.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="assets\fromgoldencombs\lang\pl.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="assets\fromgoldencombs\lang\pt-br.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="assets\fromgoldencombs\lang\ru.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="assets\fromgoldencombs\lang\sk.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="assets\fromgoldencombs\lang\uk.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="assets\fromgoldencombs\lang\zh-cn.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="assets\fromgoldencombs\recipes\clayforming\hivetop.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="assets\fromgoldencombs\recipes\clayforming\rawclaypothive.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="assets\fromgoldencombs\shapes\block\hive\ceramic\ceramicbroodpot-special.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="assets\fromgoldencombs\shapes\block\hive\ceramic\hivetop-empty.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="assets\fromgoldencombs\shapes\block\hive\ceramic\hivetop-harvestable.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="assets\fromgoldencombs\shapes\block\hive\ceramic\hivetop-raw.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="assets\game\patches\artisantraderpatch.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="assets\game\patches\berrybushpatch.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="assets\game\patches\croppatch.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="assets\newworldcrops\patches\croppatch.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="assets\wildcraftfruit\patches\wildcraftfruit-pollination-compat.json">
+    <Content Include="changelog.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Update="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Update="changelog.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="modicon.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
+
+  <!--
+    Generate Properties\launchSettings.json (gitignored) from the template using the machine-specific
+    paths, so IDE launch profiles start the game with the configured test data path.
+    Skipped when no data path is configured, so nothing ever points at a real game data folder.
+  -->
+  <Target Name="GenerateLaunchSettings" BeforeTargets="BeforeBuild" Condition="'$(VintageStoryDataPath)' != ''">
+    <PropertyGroup>
+      <_LaunchTemplate>$(MSBuildProjectDirectory)\Properties\launchSettings.template.json</_LaunchTemplate>
+      <_LaunchTarget>$(MSBuildProjectDirectory)\Properties\launchSettings.json</_LaunchTarget>
+      <_LaunchContent>$([System.IO.File]::ReadAllText('$(_LaunchTemplate)').Replace('{VintageStoryPath}', '$(VintageStoryPath.Replace('\', '\\'))').Replace('{VintageStoryDataPath}', '$(VintageStoryDataPath.Replace('\', '\\'))').Replace('{ModOutputPath}', '$(ModOutputPath.Replace('\', '\\'))'))</_LaunchContent>
+      <_LaunchExisting Condition="Exists('$(_LaunchTarget)')">$([System.IO.File]::ReadAllText('$(_LaunchTarget)'))</_LaunchExisting>
+    </PropertyGroup>
+    <WriteLinesToFile File="$(_LaunchTarget)" Lines="$(_LaunchContent)" Overwrite="true" Condition="'$(_LaunchContent)' != '$(_LaunchExisting)'" />
+  </Target>
+
 </Project>

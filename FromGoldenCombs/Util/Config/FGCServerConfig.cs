@@ -92,6 +92,46 @@ namespace FromGoldenCombs.Util.Config
         [ProtoMember(42)]
         public bool enabledGreenHouse = true;
 
+        // Roaming bees. Bees are purely visual; none of these settings change honey or pollination.
+        [ProtoMember(43)]
+        public bool roamingBeesEnabled = true;
+        [ProtoMember(44)]
+        public int roamingBeesPerSkep = 20;
+        [ProtoMember(45)]
+        public int roamingBeesPerCeramicHive = 30;
+        [ProtoMember(46)]
+        public int roamingBeesPerLangstrothHive = 40;
+        [ProtoMember(47)]
+        public int roamingBeesGlobalCap = 400;
+        [ProtoMember(48)]
+        public int roamingBeesRadius = 10;
+        [ProtoMember(49)]
+        public int roamingBeesMinFlowerVisits = 2;
+        [ProtoMember(50)]
+        public int roamingBeesMaxFlowerVisits = 6;
+        [ProtoMember(51)]
+        public float roamingBeesRainfallStop = 0.1f;
+        [ProtoMember(52)]
+        public float roamingBeesMinSunAltitudeDeg = -3f;
+        [ProtoMember(53)]
+        public float roamingBeesFullSunAltitudeDeg = 8f;
+        [ProtoMember(54)]
+        public float roamingBeesMinTemperature = 8f;
+        [ProtoMember(55)]
+        public float roamingBeesFullTemperature = 16f;
+        [ProtoMember(56)]
+        public int roamingBeesSpawnCooldownMs = 600;
+        [ProtoMember(57)]
+        public bool roamingBeesVisitCrops = true;
+        [ProtoMember(58)]
+        public bool roamingBeesScoutWithoutFlowers = true;
+        /// <summary>Multiplies every hive's bee target. 2.0 doubles all bees, 0.5 halves them.</summary>
+        [ProtoMember(59)]
+        public float roamingBeesDensity = 1.0f;
+        /// <summary>Maximum bees per vanilla wild hive (hanging and in-log).</summary>
+        [ProtoMember(60)]
+        public int roamingBeesPerWildHive = 20;
+
 
         public FGCServerConfig()
         { }
@@ -145,6 +185,24 @@ namespace FromGoldenCombs.Util.Config
             defaultServerConfig.langstrothCropBoostPercentage = 0.30f;
             defaultServerConfig.ceramicCropBoostPercentage = 0.20f;
             defaultServerConfig.skepCropBoostPercentage = 0.10f;
+            defaultServerConfig.roamingBeesEnabled = true;
+            defaultServerConfig.roamingBeesPerSkep = 20;
+            defaultServerConfig.roamingBeesPerCeramicHive = 30;
+            defaultServerConfig.roamingBeesPerLangstrothHive = 40;
+            defaultServerConfig.roamingBeesGlobalCap = 400;
+            defaultServerConfig.roamingBeesRadius = 10;
+            defaultServerConfig.roamingBeesMinFlowerVisits = 2;
+            defaultServerConfig.roamingBeesMaxFlowerVisits = 6;
+            defaultServerConfig.roamingBeesRainfallStop = 0.1f;
+            defaultServerConfig.roamingBeesMinSunAltitudeDeg = -3f;
+            defaultServerConfig.roamingBeesFullSunAltitudeDeg = 8f;
+            defaultServerConfig.roamingBeesMinTemperature = 8f;
+            defaultServerConfig.roamingBeesFullTemperature = 16f;
+            defaultServerConfig.roamingBeesSpawnCooldownMs = 600;
+            defaultServerConfig.roamingBeesVisitCrops = true;
+            defaultServerConfig.roamingBeesScoutWithoutFlowers = true;
+            defaultServerConfig.roamingBeesDensity = 1.0f;
+            defaultServerConfig.roamingBeesPerWildHive = 20;
             defaultServerConfig.enabledInRoomOnly = true;
             defaultServerConfig.enabledGreenHouse = true;
 
