@@ -361,11 +361,3 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-# --- Fork additions ---
-# Machine-specific build paths and generated IDE launch profiles
-Directory.Build.props.user
-FromGoldenCombs/Properties/launchSettings.json
-# Packaged mod zips
-Releases/
-# Claude Code worktrees
-.claude/

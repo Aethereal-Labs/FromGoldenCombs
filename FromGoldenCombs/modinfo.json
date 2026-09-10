@@ -3,9 +3,8 @@
   "modid": "fromgoldencombs",
   "name": "From Golden Combs",
   "authors": ["Vinter Nacht"],
-  "contributors": ["JOMOGO"],
   "description": "Adding depth, variety, and complexity to Vintage Apiculture",
-  "version": "2.1.0",
+  "version": "2.0.8",
   "dependencies": {
     "game": ""
   }
