@@ -2,6 +2,7 @@
 using FromGoldenCombs.Blocks;
 using FromGoldenCombs.Blocks.ClaypotHive;
 using FromGoldenCombs.Blocks.Langstroth;
+using FromGoldenCombs.RoamingBees;
 using FromGoldenCombs.Util.Config;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ using Vintagestory.GameContent;
 
 namespace FromGoldenCombs.BlockEntities
 {
-    class BEFGCBeehive : BlockEntityBeehive, IAnimalFoodSource
+    class BEFGCBeehive : BlockEntityBeehive, IAnimalFoodSource, IRoamingBeeHive
     {
 
         // Stored values
@@ -59,6 +60,16 @@ namespace FromGoldenCombs.BlockEntities
         
         private string material;
         public new Vec3d Position => Pos.ToVec3d().Add(0.5, 0.5, 0.5);
+
+        #region Roaming bees
+        public BlockPos HivePos => Pos;
+        public EnumRoamingHiveType RoamingHiveType => EnumRoamingHiveType.Skep;
+        public bool RoamingBeesActive => !isWildHive && Block?.Variant?["type"] == "populated" && !(_roomness > 0 && !FGCServerConfig.Current.enabledGreenHouse);
+        public EnumHivePopSize RoamingPopSize => hivePopSize;
+        public float RoamingActivityLevel => actvitiyLevel;
+        public int RoamingRoomness => _roomness;
+        public string RoamingFacing => Block?.Variant?["side"];
+        #endregion
         public int roomness { get => _roomness; }
 
         static BEFGCBeehive()
@@ -108,6 +119,7 @@ namespace FromGoldenCombs.BlockEntities
             {
                 Api.ModLoader.GetModSystem<FromGoldenCombs>().OnPollination += OnPollinationNearby;
                 api.ModLoader.GetModSystem<POIRegistry>(true).AddPOI(this);
+                RoamingBeesModSystem.RegisterHive(api, this);
             }
 
             harvestBase = (FGCServerConfig.Current.SkepDaysToHarvestIn30DayMonths * (Api.World.Calendar.DaysPerMonth / 30f)) * api.World.Calendar.HoursPerDay;
@@ -263,6 +275,7 @@ namespace FromGoldenCombs.BlockEntities
 
         private void SpawnBeeParticles(float dt)
         {
+            if (FGCServerConfig.Current.roamingBeesEnabled) return;   // replaced by roaming bees
             if (_roomness > 0 && !FGCServerConfig.Current.enabledGreenHouse) return;
             float dayLightStrength = Api.World.Calendar.GetDayLightStrength(Pos.X, Pos.Z);
             if (Api.World.Rand.NextDouble() > 2 * dayLightStrength - 0.5) return;
@@ -746,6 +759,7 @@ namespace FromGoldenCombs.BlockEntities
             {
                 Api.ModLoader.GetModSystem<POIRegistry>().RemovePOI(this);
                 Api.ModLoader.GetModSystem<FromGoldenCombs>().OnPollination -= OnPollinationNearby;
+                RoamingBeesModSystem.UnregisterHive(Api, Pos);
             }
         }
         #endregion
@@ -757,6 +771,7 @@ namespace FromGoldenCombs.BlockEntities
             if (api?.Side == EnumAppSide.Server)
             {
                 api.ModLoader.GetModSystem<POIRegistry>().RemovePOI(this);
+                RoamingBeesModSystem.UnregisterHive(api, Pos);
             }
         }
     }

@@ -1,0 +1,9 @@
+<Project>
+  <!-- Copy this file to Directory.Build.props.user and adjust the paths for your machine. -->
+  <PropertyGroup>
+    <!-- Folder that contains Vintagestory.exe, VintagestoryAPI.dll, Lib\ and Mods\ -->
+    <VintageStoryPath>C:\Users\you\AppData\Roaming\Vintagestory</VintageStoryPath>
+    <!-- Game data folder used by the IDE launch profiles (--dataPath). Use a test profile, never your real one. -->
+    <VintageStoryDataPath>C:\Users\you\AppData\Roaming\VintagestoryData_Modding</VintageStoryDataPath>
+  </PropertyGroup>
+</Project>

@@ -72,6 +72,26 @@ namespace FromGoldenCombs.Util.Config
             FGCServerConfig.Current.skepCropBoostPercentage = fgcConfig.skepCropBoostPercentage;
             FGCServerConfig.Current.ceramicCropBoostPercentage = fgcConfig.ceramicCropBoostPercentage;
             FGCServerConfig.Current.langstrothCropBoostPercentage = fgcConfig.langstrothCropBoostPercentage;
+            FGCServerConfig.Current.enabledInRoomOnly = fgcConfig.enabledInRoomOnly;
+            FGCServerConfig.Current.enabledGreenHouse = fgcConfig.enabledGreenHouse;
+            FGCServerConfig.Current.roamingBeesEnabled = fgcConfig.roamingBeesEnabled;
+            FGCServerConfig.Current.roamingBeesPerSkep = fgcConfig.roamingBeesPerSkep;
+            FGCServerConfig.Current.roamingBeesPerCeramicHive = fgcConfig.roamingBeesPerCeramicHive;
+            FGCServerConfig.Current.roamingBeesPerLangstrothHive = fgcConfig.roamingBeesPerLangstrothHive;
+            FGCServerConfig.Current.roamingBeesGlobalCap = fgcConfig.roamingBeesGlobalCap;
+            FGCServerConfig.Current.roamingBeesRadius = fgcConfig.roamingBeesRadius;
+            FGCServerConfig.Current.roamingBeesMinFlowerVisits = fgcConfig.roamingBeesMinFlowerVisits;
+            FGCServerConfig.Current.roamingBeesMaxFlowerVisits = fgcConfig.roamingBeesMaxFlowerVisits;
+            FGCServerConfig.Current.roamingBeesRainfallStop = fgcConfig.roamingBeesRainfallStop;
+            FGCServerConfig.Current.roamingBeesMinSunAltitudeDeg = fgcConfig.roamingBeesMinSunAltitudeDeg;
+            FGCServerConfig.Current.roamingBeesFullSunAltitudeDeg = fgcConfig.roamingBeesFullSunAltitudeDeg;
+            FGCServerConfig.Current.roamingBeesMinTemperature = fgcConfig.roamingBeesMinTemperature;
+            FGCServerConfig.Current.roamingBeesFullTemperature = fgcConfig.roamingBeesFullTemperature;
+            FGCServerConfig.Current.roamingBeesSpawnCooldownMs = fgcConfig.roamingBeesSpawnCooldownMs;
+            FGCServerConfig.Current.roamingBeesVisitCrops = fgcConfig.roamingBeesVisitCrops;
+            FGCServerConfig.Current.roamingBeesScoutWithoutFlowers = fgcConfig.roamingBeesScoutWithoutFlowers;
+            FGCServerConfig.Current.roamingBeesDensity = fgcConfig.roamingBeesDensity;
+            FGCServerConfig.Current.roamingBeesPerWildHive = fgcConfig.roamingBeesPerWildHive;
 
         }
 
@@ -190,6 +210,46 @@ namespace FromGoldenCombs.Util.Config
             public float ceramicCropBoostPercentage = FGCServerConfig.Current.ceramicCropBoostPercentage;
             [ProtoMember(40)]
             public float skepCropBoostPercentage = FGCServerConfig.Current.skepCropBoostPercentage;
+            [ProtoMember(41)]
+            public bool enabledInRoomOnly = FGCServerConfig.Current.enabledInRoomOnly;
+            [ProtoMember(42)]
+            public bool enabledGreenHouse = FGCServerConfig.Current.enabledGreenHouse;
+            [ProtoMember(43)]
+            public bool roamingBeesEnabled = FGCServerConfig.Current.roamingBeesEnabled;
+            [ProtoMember(44)]
+            public int roamingBeesPerSkep = FGCServerConfig.Current.roamingBeesPerSkep;
+            [ProtoMember(45)]
+            public int roamingBeesPerCeramicHive = FGCServerConfig.Current.roamingBeesPerCeramicHive;
+            [ProtoMember(46)]
+            public int roamingBeesPerLangstrothHive = FGCServerConfig.Current.roamingBeesPerLangstrothHive;
+            [ProtoMember(47)]
+            public int roamingBeesGlobalCap = FGCServerConfig.Current.roamingBeesGlobalCap;
+            [ProtoMember(48)]
+            public int roamingBeesRadius = FGCServerConfig.Current.roamingBeesRadius;
+            [ProtoMember(49)]
+            public int roamingBeesMinFlowerVisits = FGCServerConfig.Current.roamingBeesMinFlowerVisits;
+            [ProtoMember(50)]
+            public int roamingBeesMaxFlowerVisits = FGCServerConfig.Current.roamingBeesMaxFlowerVisits;
+            [ProtoMember(51)]
+            public float roamingBeesRainfallStop = FGCServerConfig.Current.roamingBeesRainfallStop;
+            [ProtoMember(52)]
+            public float roamingBeesMinSunAltitudeDeg = FGCServerConfig.Current.roamingBeesMinSunAltitudeDeg;
+            [ProtoMember(53)]
+            public float roamingBeesFullSunAltitudeDeg = FGCServerConfig.Current.roamingBeesFullSunAltitudeDeg;
+            [ProtoMember(54)]
+            public float roamingBeesMinTemperature = FGCServerConfig.Current.roamingBeesMinTemperature;
+            [ProtoMember(55)]
+            public float roamingBeesFullTemperature = FGCServerConfig.Current.roamingBeesFullTemperature;
+            [ProtoMember(56)]
+            public int roamingBeesSpawnCooldownMs = FGCServerConfig.Current.roamingBeesSpawnCooldownMs;
+            [ProtoMember(57)]
+            public bool roamingBeesVisitCrops = FGCServerConfig.Current.roamingBeesVisitCrops;
+            [ProtoMember(58)]
+            public bool roamingBeesScoutWithoutFlowers = FGCServerConfig.Current.roamingBeesScoutWithoutFlowers;
+            [ProtoMember(59)]
+            public float roamingBeesDensity = FGCServerConfig.Current.roamingBeesDensity;
+            [ProtoMember(60)]
+            public int roamingBeesPerWildHive = FGCServerConfig.Current.roamingBeesPerWildHive;
         }
 
         [ProtoContract]
