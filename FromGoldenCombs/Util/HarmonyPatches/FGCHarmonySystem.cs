@@ -7,7 +7,6 @@ using Vintagestory.GameContent;
 using System.Reflection;
 using Vintagestory.API.Datastructures;
 using FromGoldenCombs.BlockEntities;
-using FromGoldenCombs.RoamingBees;
 using FromGoldenCombs.Util.Config;
 
 
@@ -33,69 +32,7 @@ namespace FromGoldenCombs.Util.HarmonyPatches
             harmony.Patch(typeof(Block).GetMethod("GetAmbientSoundStrength", BindingFlags.Instance | BindingFlags.Public),
             prefix: new HarmonyMethod(typeof(FGCHarmonySystem).GetMethod("GetAmbientSoundStrengthPrefix", BindingFlags.Static | BindingFlags.Public))
             );
-            // Fork: roaming bees replace the vanilla skep bee particles on FGC skeps while enabled
-            var vanillaBeeParticles = AccessTools.Method(typeof(BlockEntityBeehive), "SpawnBeeParticles");
-            if (vanillaBeeParticles != null)
-            {
-                harmony.Patch(vanillaBeeParticles,
-                    prefix: new HarmonyMethod(typeof(FGCHarmonySystem).GetMethod(nameof(SkipVanillaBeeParticlesPrefix), BindingFlags.Static | BindingFlags.Public)));
-            }
-            // Fork: vanilla wild hives (BlockBeehive with the vanilla block entity) join the roaming bee system
-            var beInitialize = AccessTools.Method(typeof(BlockEntityBeehive), nameof(BlockEntityBeehive.Initialize));
-            if (beInitialize != null)
-            {
-                harmony.Patch(beInitialize, postfix: new HarmonyMethod(typeof(FGCHarmonySystem).GetMethod(nameof(WildHiveInitializedPostfix), BindingFlags.Static | BindingFlags.Public)));
-            }
-            foreach (string gone in new[] { nameof(BlockEntity.OnBlockRemoved), nameof(BlockEntity.OnBlockUnloaded) })
-            {
-                var method = AccessTools.Method(typeof(BlockEntityBeehive), gone);
-                if (method != null)
-                {
-                    harmony.Patch(method, postfix: new HarmonyMethod(typeof(FGCHarmonySystem).GetMethod(nameof(WildHiveGonePostfix), BindingFlags.Static | BindingFlags.Public)));
-                }
-            }
-
-            // Fork: the angry bee swarm entity is drawn with roaming bees instead of its own shape
-            foreach (string render in new[] { "DoRender3DOpaque", "DoRender3DOpaqueBatched" })
-            {
-                var method = AccessTools.Method(typeof(EntityShapeRenderer), render);
-                if (method != null)
-                {
-                    harmony.Patch(method, prefix: new HarmonyMethod(typeof(FGCHarmonySystem).GetMethod(nameof(HideBeeMobShapePrefix), BindingFlags.Static | BindingFlags.Public)));
-                }
-            }
             harmony.PatchAll();
-        }
-
-        public static bool SkipVanillaBeeParticlesPrefix(BlockEntityBeehive __instance)
-        {
-            return !(__instance is BEFGCBeehive && FGCServerConfig.Current != null && FGCServerConfig.Current.roamingBeesEnabled);
-        }
-
-        /// <summary>Registers vanilla wild hives with the roaming bee manager (FGC skeps register themselves).</summary>
-        public static void WildHiveInitializedPostfix(BlockEntity __instance, ICoreAPI api)
-        {
-            if (api == null || api.Side != EnumAppSide.Server) return;
-            if (__instance is not BlockEntityBeehive be || __instance is BEFGCBeehive) return;
-            if (be.Block is not BlockBeehive) return;
-            if (FGCServerConfig.Current == null || !FGCServerConfig.Current.roamingBeesEnabled) return;
-            RoamingBeesModSystem.RegisterHive(api, new WildHiveAdapter(be));
-        }
-
-        public static void WildHiveGonePostfix(BlockEntity __instance)
-        {
-            if (__instance is not BlockEntityBeehive || __instance is BEFGCBeehive) return;
-            ICoreAPI api = __instance.Api;
-            if (api == null || api.Side != EnumAppSide.Server) return;
-            RoamingBeesModSystem.UnregisterHive(api, __instance.Pos);
-        }
-
-        /// <summary>Skips the vanilla swarm mesh only while the client is actually drawing that swarm as roaming bees.</summary>
-        public static bool HideBeeMobShapePrefix(EntityShapeRenderer __instance)
-        {
-            var entity = __instance.entity;
-            if (!AngrySwarmClient.IsSwarm(entity)) return true;
-            return !AngrySwarmClient.IsDrawing(entity);
         }
 
 

@@ -1,7 +1,6 @@
 ﻿using FromGoldenCombs.BlockBehaviors;
 using FromGoldenCombs.Blocks;
 using FromGoldenCombs.Blocks.Langstroth;
-using FromGoldenCombs.RoamingBees;
 using FromGoldenCombs.Util.Config;
 using System;
 using System.Collections;
@@ -20,7 +19,7 @@ using Vintagestory.Server;
 
 namespace FromGoldenCombs.BlockEntities
 {
-    class BELangstrothStack : BlockEntityDisplay, IRoamingBeeHive
+    class BELangstrothStack : BlockEntityDisplay
     {
 
         double harvestableAtTotalHours;
@@ -43,17 +42,6 @@ namespace FromGoldenCombs.BlockEntities
         public override InventoryBase Inventory => inv;
         float harvestBase;
         public override string InventoryClassName => "langstrothstack";
-
-        #region Roaming bees
-        public BlockPos HivePos => Pos;
-        public EnumRoamingHiveType RoamingHiveType => EnumRoamingHiveType.Langstroth;
-        // only the bottom stack of a hive owns bees
-        public bool RoamingBeesActive => _isActiveHive && GetBottomStack() == this && !(_roomness > 0 && !FGCServerConfig.Current.enabledGreenHouse);
-        public EnumHivePopSize RoamingPopSize => _hivePopSize;
-        public float RoamingActivityLevel => _activityLevel;
-        public int RoamingRoomness => _roomness;
-        public string RoamingFacing => Block?.Variant?["side"];
-        #endregion
         private bool _isActiveHive = false;
         double chargesPerDay = FGCServerConfig.Current.langstrothBaseChargesPerDay;
         double cropChargeGrowthHours = 24; //Number of hours until the hive accumulates a new grow charge.
@@ -119,7 +107,6 @@ namespace FromGoldenCombs.BlockEntities
                 RegisterGameTickListener(SpawnBeeParticles, 300);
             }
             bottomStack._roomness = CalculateRoomness(roomreg.GetRoomForPosition(Pos));
-            RoamingBeesModSystem.RegisterHive(api, this);
             bottomStack.UpdateClimateValues(api);
         }
 
@@ -264,18 +251,6 @@ namespace FromGoldenCombs.BlockEntities
             }
 
             cropcharges--;
-        }
-
-        public override void OnBlockRemoved()
-        {
-            RoamingBeesModSystem.UnregisterHive(Api, Pos);
-            base.OnBlockRemoved();
-        }
-
-        public override void OnBlockUnloaded()
-        {
-            base.OnBlockUnloaded();
-            RoamingBeesModSystem.UnregisterHive(Api, Pos);
         }
 
         public override void OnBlockBroken(IPlayer byPlayer = null)
@@ -844,7 +819,6 @@ namespace FromGoldenCombs.BlockEntities
 
         private void SpawnBeeParticles(float dt)
         {
-            if (FGCServerConfig.Current.roamingBeesEnabled) return;   // replaced by roaming bees
             if (_roomness > 0 && !FGCServerConfig.Current.enabledGreenHouse) return;
             Room room = roomreg?.GetRoomForPosition(Pos);
             Random rand = Api.World.Rand;
