@@ -80,8 +80,19 @@ namespace FromGoldenCombs.BlockEntities
         public EnumHivePopSize RoamingPopSize => _hivePopSize;
         public float RoamingActivityLevel => _activityLevel;
         public int RoamingRoomness => _roomness;
-        public string RoamingFacing => null;   // no facing variant: the entrance side is derived from the position
+        public string RoamingFacing => EntranceSide;
         #endregion
+
+        // The pot has no facing variant (that would change every block code); the entrance side lives here instead.
+        // Pots placed before this existed fall back to a stable side derived from the position.
+        string entranceSide;
+        public string EntranceSide => entranceSide ?? HiveEntrance.StableSideCode(Pos);
+
+        public void SetEntranceSide(string side)
+        {
+            entranceSide = side;
+            MarkDirty(true);
+        }
 
         public BECeramicBroodPot()
         {
@@ -353,11 +364,28 @@ namespace FromGoldenCombs.BlockEntities
             base.updateMeshes();
         }
 
+        MeshData rotatedPotMesh;
+        string rotatedPotMeshKey;
+
         public override bool OnTesselation(ITerrainMeshPool mesher, ITesselatorAPI tessThreadTesselator)
         {
             mat.Identity();
-            return base.OnTesselation(mesher, tessThreadTesselator);
+            bool skipDefault = base.OnTesselation(mesher, tessThreadTesselator);
 
+            // turn the pot so its entrance slot faces EntranceSide
+            int rotY = HiveEntrance.RotateYFor(EntranceSide);
+            if (rotY == 0 || Block?.Shape == null) return skipDefault;
+
+            string key = Block.Code + "@" + rotY;
+            if (rotatedPotMesh == null || rotatedPotMeshKey != key)
+            {
+                Shape shape = Shape.TryGet(Api, Block.Shape.Base.Clone().WithPathPrefixOnce("shapes/").WithPathAppendixOnce(".json"));
+                if (shape == null) return skipDefault;
+                tessThreadTesselator.TesselateShape(Block, shape, out rotatedPotMesh, new Vec3f(Block.Shape.rotateX, Block.Shape.rotateY + rotY, Block.Shape.rotateZ));
+                rotatedPotMeshKey = key;
+            }
+            mesher.AddMeshData(rotatedPotMesh);
+            return true;
         }
 
         public void TestHarvestable(float dt)
@@ -742,6 +770,7 @@ namespace FromGoldenCombs.BlockEntities
             tree.SetFloat("maxTemp", maxTemp);
             tree.SetFloat("optimalTemp", optimalTemp);
             tree.SetFloat("activitylevel", _activityLevel);
+            if (entranceSide != null) tree.SetString("entranceSide", entranceSide);
         }
 
         public override void FromTreeAttributes(ITreeAttribute tree, IWorldAccessor worldForResolving)
@@ -781,6 +810,11 @@ namespace FromGoldenCombs.BlockEntities
             maxTemp = tree.GetFloat("maxTemp");
             optimalTemp = tree.GetFloat("optimalTemp");
             _activityLevel = tree.GetFloat("activitylevel");
+
+            string prevSide = entranceSide;
+            entranceSide = tree.GetString("entranceSide", null);
+            if (prevSide != entranceSide && Api is ICoreClientAPI) MarkDirty(true);   // re-tesselate with the new rotation
+
             updateMeshes();
 
         }
