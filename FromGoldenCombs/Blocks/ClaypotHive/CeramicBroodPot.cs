@@ -95,6 +95,18 @@ namespace FromGoldenCombs.Blocks.ClaypotHive
             }
         }
 
+        /// <summary>Places the pot with its entrance slot oriented like a Langstroth (HorizontalOrientable) would be.</summary>
+        public override bool TryPlaceBlock(IWorldAccessor world, IPlayer byPlayer, ItemStack itemstack, BlockSelection blockSel, ref string failureCode)
+        {
+            if (!base.TryPlaceBlock(world, byPlayer, itemstack, blockSel, ref failureCode)) return false;
+
+            if (byPlayer != null && world.BlockAccessor.GetBlockEntity(blockSel.Position) is BECeramicBroodPot pot)
+            {
+                pot.SetEntranceSide(SuggestedHVOrientation(byPlayer, blockSel)[0].Code);
+            }
+            return true;
+        }
+
         /// <summary>Called when a block is broken, and rolls chance of producing a beemob if populated.</summary>
         /// <param name="world">The world.</param>
         /// <param name="pos">The position.</param>

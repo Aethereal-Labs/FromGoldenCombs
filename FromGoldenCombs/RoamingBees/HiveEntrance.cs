@@ -20,14 +20,16 @@ namespace FromGoldenCombs.RoamingBees
             switch (type)
             {
                 case EnumRoamingHiveType.Ceramic:
+                    // the entrance slot at the foot of the pot's wall (y ~2.2..3.8 px), above the landing lip
                     offset = side switch
                     {
-                        0 => new Vec3f(0.5f, 0.1f, 0.8f),
-                        1 => new Vec3f(0.2f, 0.1f, 0.5f),
-                        2 => new Vec3f(0.5f, 0.1f, 0.2f),
-                        _ => new Vec3f(0.8f, 0.1f, 0.5f),
+                        0 => new Vec3f(0.5f, 0.19f, 0.81f),
+                        1 => new Vec3f(0.19f, 0.19f, 0.5f),
+                        2 => new Vec3f(0.5f, 0.19f, 0.19f),
+                        _ => new Vec3f(0.81f, 0.19f, 0.5f),
                     };
                     front = FlatFront(side);
+                    front.Y = -0.15f;   // the pot sits on the ground: only a shallow dip onto the lip
                     break;
 
                 case EnumRoamingHiveType.Langstroth:
@@ -101,6 +103,21 @@ namespace FromGoldenCombs.RoamingBees
                 if (Sides[i] == facing) return i;
             }
             return -1;
+        }
+
+        /// <summary>Side code used for a hive without a stored facing (ceramic pots placed before they had one).</summary>
+        public static string StableSideCode(BlockPos pos) => Sides[StableSide(pos)];
+
+        /// <summary>Shape rotation that puts a model's +Z entrance on the given side (same table as the Langstroth variants).</summary>
+        public static int RotateYFor(string facing)
+        {
+            return facing switch
+            {
+                "east" => 270,
+                "south" => 180,
+                "west" => 90,
+                _ => 0,
+            };
         }
 
         static int StableSide(BlockPos pos)
