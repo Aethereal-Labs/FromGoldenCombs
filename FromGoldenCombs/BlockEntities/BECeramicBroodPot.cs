@@ -113,7 +113,10 @@ namespace FromGoldenCombs.BlockEntities
                 {
                     testHarvestableListener = RegisterGameTickListener(TestHarvestable, 5000);
                     scanForFlowersListener = RegisterGameTickListener(OnScanForFlowers, Api.World.Rand.Next(5000) + 30000);
-                    cooldownUntilTotalHours = Api.World.Calendar.TotalHours + 8;
+                    if (cooldownUntilTotalHours <= 0)
+                    {
+                        cooldownUntilTotalHours = Api.World.Calendar.TotalHours + 8;
+                    }
                 }
                 MarkDirty();
             }
