@@ -85,9 +85,10 @@
 		"*-tan-raw",
 		"*-orange-raw",
 		"*-gray-raw",
+		"*-earthyorange-raw",
 		"*-cream-raw",
 		"*-brown-raw",
-    "*-black-raw"
+		"*-black-raw"
 	],
   "shapebytype": {
     "*-fired": { "base": "block/hive/ceramic/hivetop-empty" },

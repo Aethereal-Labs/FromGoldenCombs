@@ -1,13 +1,11 @@
 [
 	{
-		code: "waxedlinen1",
-		sealHours: 2,
-		ingredients: [
-			{ type: "item", code: "game:beeswax",  quantity: 1 },
-			{ type: "block", code: "game:linen-*-down", quantity: 1, "name": "pattern", allowedVariants: ["square", "offset", "normal", "diamond"]}
+		"code": "waxedlinen1",
+		"sealHours": 2,
+		"ingredients": [
+			{ "type": "item", "code": "game:beeswax",  "quantity": 1 },
+			{ "type": "block", "code": "game:linen-*-down", "quantity": 1, "name": "pattern", "allowedVariants": ["square", "offset", "normal", "diamond"]}
 		],
-		output: { type: "block", code: "game:linen-waxed-down", stackSize: 1 }
+		"output": { "type": "block", "code": "game:linen-waxed-down", "stackSize": 1 }
 	}
 ]
-
-

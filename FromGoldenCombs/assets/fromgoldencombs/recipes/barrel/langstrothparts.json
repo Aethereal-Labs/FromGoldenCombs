@@ -1,13 +1,11 @@
 [
-{
-	"code": "langstrothpartside",
-	"sealHours": 48,
-	"ingredients": [
-		{ "type": "item", "code": "game:beeswax", "quantity": 1 },
-		{ "type": "item", "code": "game:plank-*", "quantity": 4, "name": "wood", "states": ["aged"], "loadFromProperties": "block/wood"}
-	],
-	"output": { "type": "item", "code": "fromgoldencombs:langstrothside-{wood}", "stackSize": 4 }
-}
+	{
+		"code": "langstrothpartside",
+		"sealHours": 48,
+		"ingredients": [
+			{ "type": "item", "code": "game:beeswax", "quantity": 1 },
+			{ "type": "item", "code": "game:plank-*", "quantity": 4, "name": "wood", "skipVariants": ["veryaged"] }
+		],
+		"output": { "type": "item", "code": "fromgoldencombs:langstrothside-{wood}", "stackSize": 4 }
+	}
 ]
-
-
