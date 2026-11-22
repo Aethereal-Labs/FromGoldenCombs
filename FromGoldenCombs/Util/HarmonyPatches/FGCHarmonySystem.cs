@@ -119,7 +119,7 @@ namespace FromGoldenCombs.Util.HarmonyPatches
 
         public override void Dispose()
         {
-            harmony?.UnpatchAll();
+            harmony?.UnpatchAll(harmony.Id);
             harmony = null;
 
         }
